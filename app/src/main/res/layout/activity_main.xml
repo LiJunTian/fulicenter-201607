@@ -11,11 +11,18 @@
     tools:context=".activity.MainActivity">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_above="@+id/radioGroup"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/view">
 
     </android.support.v7.widget.RecyclerView>
+    <View
+        android:id="@+id/view"
+        android:layout_above="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="5dp"
+        android:background="#D6DCDC"/>
     <RadioGroup
         android:layout_alignParentBottom="true"
         android:id="@+id/radioGroup"
@@ -38,6 +45,7 @@
             android:button="@null"
             android:gravity="center"
             android:text="精选"/>
+
         <RadioButton
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -46,14 +54,27 @@
             android:text="分类"
             android:button="@null"
             android:gravity="center"/>
-        <RadioButton
+        <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableTop="@drawable/selector_menu_item_cart"
-            android:text="购物车"
-            android:button="@null"
-            android:gravity="center"/>
+            android:layout_height="wrap_content">
+                <RadioButton
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@drawable/selector_menu_item_cart"
+                    android:text="购物车"
+                    android:button="@null" />
+                <TextView
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="30dp"
+                    android:text="22"
+                    android:background="@drawable/cart_hint"/>
+        </RelativeLayout>
+
         <RadioButton
             android:layout_width="0dp"
             android:layout_height="wrap_content"
