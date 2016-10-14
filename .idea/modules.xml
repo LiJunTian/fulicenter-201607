@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FuLiCenter.iml" filepath="$PROJECT_DIR$/FuLiCenter.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fulicenter-201607.iml" filepath="$PROJECT_DIR$/fulicenter-201607.iml" />
     </modules>
   </component>
 </project>
