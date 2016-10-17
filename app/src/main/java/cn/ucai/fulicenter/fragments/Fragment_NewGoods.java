@@ -11,16 +11,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.ucai.fulicenter.ConvertUtils;
 import cn.ucai.fulicenter.I;
+import cn.ucai.fulicenter.L;
+import cn.ucai.fulicenter.NetDao;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.activity.MainActivity;
 import cn.ucai.fulicenter.adapter.GoodsAdapter;
-import cn.ucai.fulicenter.adapter.GoodsAdapter;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
+import cn.ucai.fulicenter.net.OkHttpUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,13 +43,13 @@ public class Fragment_NewGoods extends Fragment {
     RecyclerView recyclerView;
     @BindView(R.id.srl)
     SwipeRefreshLayout srl;
+
     MainActivity mContext;
     ArrayList<NewGoodsBean> list;
     GoodsAdapter mAdapter;
     public Fragment_NewGoods() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,17 +62,34 @@ public class Fragment_NewGoods extends Fragment {
     }
 
     private void initView() {
-        mAdapter = new GoodsAdapter(mContext,list);
         srl.setColorSchemeColors(
                 getResources().getColor(R.color.google_blue),
                 getResources().getColor(R.color.google_green),
                 getResources().getColor(R.color.red),
                 getResources().getColor(R.color.google_yellow)
         );
-        GridLayoutManager glm = new GridLayoutManager(mContext, I.COLUM_NUM);
+
+        list = new ArrayList<>();
+        mAdapter = new GoodsAdapter(getContext(),list);
+        GridLayoutManager glm = new GridLayoutManager(getContext(), I.COLUM_NUM);
+        recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(glm);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(mAdapter);
-    }
 
+        NetDao.downLoadNewGoods(getContext(),PAGE_ID,new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
+            @Override
+            public void onSuccess(NewGoodsBean[] result) {
+               if(result!=null&&result.length>0){
+//                   L.i("main","result:"+result.toString());
+                   ArrayList<NewGoodsBean> arrayList = ConvertUtils.array2List(result);
+                   L.i("main","arrayList:"+arrayList.get(0).toString());
+                   mAdapter.initData(arrayList);
+               }
+            }
+            @Override
+            public void onError(String error) {
+                L.i(error);
+            }
+        });
+    }
 }

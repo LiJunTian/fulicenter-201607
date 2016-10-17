@@ -13,20 +13,21 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.ucai.fulicenter.L;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
 
 /**
  * Created by Administrator on 2016/10/17 0017.
  */
-public class GoodsAdatper extends RecyclerView.Adapter {
+public class GoodsAdapter extends RecyclerView.Adapter {
     final static int TYPE_GOODS = 0;
     final static int TYPE_FOOTER = 1;
     ArrayList<NewGoodsBean> goodsList;
     Context context;
 
     String footerText;
-    public GoodsAdatper(Context context, ArrayList<NewGoodsBean> goodsList) {
+    public GoodsAdapter(Context context, ArrayList<NewGoodsBean> goodsList) {
         this.context = context;
         this.goodsList = goodsList;
     }
@@ -35,7 +36,7 @@ public class GoodsAdatper extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder holder = null;
         LayoutInflater inflater = LayoutInflater.from(context);
-        View layout;
+        View layout = null;
         switch (viewType) {
             case TYPE_GOODS:
                 layout = inflater.inflate(R.layout.goods_layout, parent, false);
@@ -59,13 +60,13 @@ public class GoodsAdatper extends RecyclerView.Adapter {
         GoodsViewHolder goodsViewHolder = (GoodsViewHolder) holder;
         NewGoodsBean goods = goodsList.get(position);
         goodsViewHolder.tvGoodsName.setText(goods.getGoodsName());
-        goodsViewHolder.tvGoodsName.setText(goods.getCurrencyPrice());
+        goodsViewHolder.tvGoodsPrice.setText(goods.getCurrencyPrice());
 //        goodsViewHolder.ivGoodsAvatar.setImageDrawable(R.drawable.);
     }
 
     @Override
     public int getItemCount() {
-        return goodsList == null ? goodsList.size() + 1 : 1;
+        return goodsList == null ? 1 : goodsList.size() + 1;
     }
 
     @Override
@@ -77,7 +78,14 @@ public class GoodsAdatper extends RecyclerView.Adapter {
         }
     }
 
-
+    public void initData(ArrayList<NewGoodsBean> list){
+       /* if(goodsList!=null){
+            goodsList.clear();
+        }*/
+        L.i("main","initData:list="+list.get(0).toString());
+        this.goodsList.addAll(list);
+        notifyDataSetChanged();
+    }
     static class GoodsViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.ivGoodsAvatar)
         ImageView ivGoodsAvatar;
