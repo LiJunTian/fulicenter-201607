@@ -1,67 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:id="@+id/main_activity"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <FrameLayout
+        android:id="@+id/main_FragmentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/view">
-
-    </android.support.v7.widget.RecyclerView>
+        android:layout_above="@+id/main_xiantiao"
+        />
     <View
-        android:id="@+id/view"
-        android:layout_above="@+id/radioGroup"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="5dp"
-        android:background="#D6DCDC"/>
-    <RadioGroup
+        style="@style/style_divide_line"
+        android:id="@+id/main_xiantiao"
+        android:layout_above="@+id/main_RadioGroup"
+        />
+    <LinearLayout
+        android:id="@+id/main_RadioGroup"
         android:layout_alignParentBottom="true"
-        android:id="@+id/radioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:onClick="onCheckedChange">
         <RadioButton
+            android:id="@+id/main_rbNewGoods"
+            android:drawableTop="@drawable/selector_menu_item_new_good"
+            android:text="新品"
+            android:button="@null"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:drawableTop="@drawable/selector_menu_item_new_good"
-            android:text="新品"
             android:gravity="center"
-            android:button="@null"/>
+            android:onClick="onCheckedChange"/>
         <RadioButton
+            android:id="@+id/main_rbBoutique"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:drawableTop="@drawable/selector_menu_item_boutique"
             android:button="@null"
             android:gravity="center"
-            android:text="精选"/>
+            android:text="精选"
+            android:onClick="onCheckedChange"/>
 
         <RadioButton
+            android:id="@+id/main_rbCategory"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:drawableTop="@drawable/selector_menu_item_category"
             android:text="分类"
             android:button="@null"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:onClick="onCheckedChange"
+            />
         <RelativeLayout
+            android:id="@+id/main_rbRL"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content">
                 <RadioButton
+                    android:id="@+id/main_rbCart"
                     android:layout_centerInParent="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableTop="@drawable/selector_menu_item_cart"
                     android:text="购物车"
-                    android:button="@null" />
+                    android:button="@null"
+                    android:onClick="onCheckedChange"/>
                 <TextView
+                    android:id="@+id/main_tvCount"
                     android:layout_alignParentRight="true"
                     android:layout_width="21dp"
                     android:layout_height="14dp"
@@ -74,12 +84,14 @@
         </RelativeLayout>
 
         <RadioButton
+            android:id="@+id/main_rbPersonalCenter"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableTop="@drawable/selector_menu_item_personal_center"
             android:text="我"
             android:button="@null"
-            android:gravity="center"/>
-    </RadioGroup>
+            android:gravity="center"
+            android:onClick="onCheckedChange"/>
+    </LinearLayout>
 </RelativeLayout>
