@@ -1,6 +1,7 @@
 package cn.ucai.fulicenter.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +14,11 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.ucai.fulicenter.I;
-import cn.ucai.fulicenter.L;
+import cn.ucai.fulicenter.MFGT;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.activity.GoodsDetailsActivity;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
 import cn.ucai.fulicenter.net.ImageLoader;
 
@@ -84,6 +87,7 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         goodsViewHolder.tvGoodsName.setText(goods.getGoodsName());
         goodsViewHolder.tvGoodsPrice.setText(goods.getCurrencyPrice());
         ImageLoader.downloadImg(context,goodsViewHolder.ivGoodsAvatar,goods.getGoodsThumb(),true);
+        goodsViewHolder.goodsLayout.setTag(goods.getGoodsId());
     }
 
     @Override
@@ -111,7 +115,7 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         this.goodsList.addAll(list);
         notifyDataSetChanged();
     }
-    static class GoodsViewHolder extends RecyclerView.ViewHolder{
+     class GoodsViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.ivGoodsAvatar)
         ImageView ivGoodsAvatar;
         @BindView(R.id.tvGoodsName)
@@ -124,9 +128,14 @@ public class GoodsAdapter extends RecyclerView.Adapter {
             super(view);
             ButterKnife.bind(this, view);
         }
+        @OnClick(R.id.goods_layout)
+        public void onGoodsItemClick(){
+            int goodsId = (int) goodsLayout.getTag();
+            MFGT.gotoGoodsDetailActivity(context,goodsId);
+        }
     }
 
-     static class FooterViewHolder extends RecyclerView.ViewHolder{
+      class FooterViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.footer_layout)
         TextView footerLayout;
 
