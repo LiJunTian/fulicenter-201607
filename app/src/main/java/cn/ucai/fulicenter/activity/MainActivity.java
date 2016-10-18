@@ -70,11 +70,25 @@ public class MainActivity extends AppCompatActivity {
         mFragment_Category = new Fragment_Category();
         mFragment_Cart = new Fragment_Cart();
         mFragment_PersonCenter = new Fragment_PersonCenter();
-        getSupportFragmentManager()
+        /*getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.main_FragmentLayout,mFragment_newGoods)
                 .show(mFragment_newGoods)
-                .commit();
+                .commit();*/
+
+        list.add(mFragment_newGoods);
+        list.add(mFragment_Boutique);
+        list.add(mFragment_Category);
+        list.add(mFragment_Cart);
+        list.add(mFragment_PersonCenter);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.main_FragmentLayout,mFragment_newGoods);
+        transaction.add(R.id.main_FragmentLayout,mFragment_Boutique).hide(mFragment_Boutique);
+        transaction.add(R.id.main_FragmentLayout,mFragment_Category).hide(mFragment_Category);
+        transaction.add(R.id.main_FragmentLayout,mFragment_Cart).hide(mFragment_Cart);
+        transaction.add(R.id.main_FragmentLayout,mFragment_PersonCenter).hide(mFragment_PersonCenter);
+        transaction.commit();
     }
 
     private void initView() {
@@ -86,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         rbs[4] = mainRbPersonalCenter;
     }
     public void onCheckedChange(View view){
-        L.i("onCheckedChange---------");
+        L.i("onCheckedChange---");
         switch(view.getId()){
             case R.id.main_rbNewGoods:
                 index = 0;
@@ -104,7 +118,17 @@ public class MainActivity extends AppCompatActivity {
                 index = 4;
                 break;
         }
+        switchFragment(index);
+        currentIndex = index;
         setRadioButtonStatus();
+    }
+
+    private void switchFragment(int index) {
+        if(currentIndex==index){
+            return;
+        }
+        L.i("main","index="+index+",currentIndex="+currentIndex);
+        getSupportFragmentManager().beginTransaction().show(list.get(index)).hide(list.get(currentIndex)).commit();
     }
 
     private void setRadioButtonStatus() {
