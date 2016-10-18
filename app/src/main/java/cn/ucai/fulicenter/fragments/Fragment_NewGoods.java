@@ -1,7 +1,6 @@
 package cn.ucai.fulicenter.fragments;
 
 
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 
 import java.util.ArrayList;
 
@@ -34,14 +32,13 @@ import cn.ucai.fulicenter.net.OkHttpUtils;
 public class Fragment_NewGoods extends Fragment {
     final static int ACTION_DOWNLOAD = 0;
     final static int ACTION_PULL_UP = 1;
-    final static int ACTION_PULL_DONW = 2;
+    final static int ACTION_PULL_DOWN= 2;
     final int CART_ID = 0;
     static int PAGE_ID = 1;
     static int PAGE_SIZE = 10;
 
     GridLayoutManager glm;
-    @BindView(R.id.tv_refresh)
-    TextView tvRefresh;
+
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.srl)
@@ -50,6 +47,9 @@ public class Fragment_NewGoods extends Fragment {
     MainActivity mContext;
     ArrayList<NewGoodsBean> list;
     GoodsAdapter mAdapter;
+    @BindView(R.id.tv_refresh)
+    TextView tvRefresh;
+
     public Fragment_NewGoods() {
         // Required empty public constructor
     }
@@ -76,9 +76,9 @@ public class Fragment_NewGoods extends Fragment {
             public void onRefresh() {
                 srl.setRefreshing(true);
                 tvRefresh.setVisibility(View.VISIBLE);
-                L.i("main","visibility设置为显示");
+                L.i("main", "visibility设置为显示");
                 PAGE_ID = 1;
-                downLoadGoods(ACTION_PULL_DONW,PAGE_ID);
+                downLoadGoods(ACTION_PULL_DOWN, PAGE_ID);
             }
         });
     }
@@ -89,10 +89,10 @@ public class Fragment_NewGoods extends Fragment {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 int position = glm.findLastVisibleItemPosition();
-                if(position>=mAdapter.getItemCount()-1&&mAdapter.isMore()&&newState==recyclerView.SCROLL_STATE_IDLE){
+                if (position >= mAdapter.getItemCount() - 1 && mAdapter.isMore() && newState == recyclerView.SCROLL_STATE_IDLE) {
                     PAGE_ID++;
-                    L.e("main","pageId="+PAGE_ID);
-                    downLoadGoods(ACTION_PULL_UP,PAGE_ID);
+                    L.e("main", "pageId=" + PAGE_ID);
+                    downLoadGoods(ACTION_PULL_UP, PAGE_ID);
                 }
             }
 
@@ -112,12 +112,12 @@ public class Fragment_NewGoods extends Fragment {
         );
 
         list = new ArrayList<>();
-        mAdapter = new GoodsAdapter(getContext(),list);
+        mAdapter = new GoodsAdapter(getContext(), list);
         glm = new GridLayoutManager(getContext(), I.COLUM_NUM);
         glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                if(position==mAdapter.getItemCount()-1){
+                if (position == mAdapter.getItemCount() - 1) {
                     return 2;
                 }
                 return 1;
@@ -130,41 +130,42 @@ public class Fragment_NewGoods extends Fragment {
         recyclerView.setLayoutManager(glm);
         recyclerView.setHasFixedSize(true);
 
-        downLoadGoods(ACTION_DOWNLOAD,PAGE_ID);
+        downLoadGoods(ACTION_DOWNLOAD, PAGE_ID);
     }
 
-    private void downLoadGoods(final int action , int pageId) {
-        NetDao.downLoadNewGoods(getContext(),pageId,new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
+    private void downLoadGoods(final int action, int pageId) {
+        NetDao.downLoadNewGoods(getContext(), pageId, new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
             @Override
             public void onSuccess(NewGoodsBean[] result) {
                 /*srl.setRefreshing(false);
                 tvRefresh.setVisibility(View.GONE);*/
-               if(result!=null&&result.length>0){
-                   ArrayList<NewGoodsBean> arrayList = ConvertUtils.array2List(result);
-                   mAdapter.setMore(true);
-                   L.i("main","arrayList:"+arrayList.get(0).toString());
-                   mAdapter.setFooterText("上拉加载更多");
-                   switch (action){
-                       case ACTION_DOWNLOAD:
-                           mAdapter.initData(arrayList);
-                           break;
-                       case ACTION_PULL_DONW:
-                           mAdapter.initData(arrayList);
-                           srl.setRefreshing(false);
-                           tvRefresh.setVisibility(View.GONE);
-                           break;
-                       case ACTION_PULL_UP:
-                           mAdapter.addData(arrayList);
-                           L.i("main","pull_up被执行");
-                           break;
-                   }
-               }else{
-                        mAdapter.setMore(false);
-                       if(action==ACTION_PULL_UP){
-                           mAdapter.setFooterText("没有更多数据");
-                   }
-               }
+                if (result != null && result.length > 0) {
+                    ArrayList<NewGoodsBean> arrayList = ConvertUtils.array2List(result);
+                    mAdapter.setMore(true);
+                    L.i("main", "arrayList:" + arrayList.get(0).toString());
+                    mAdapter.setFooterText("上拉加载更多");
+                    switch (action) {
+                        case ACTION_DOWNLOAD:
+                            mAdapter.initData(arrayList);
+                            break;
+                        case ACTION_PULL_DOWN:
+                            mAdapter.initData(arrayList);
+                            srl.setRefreshing(false);
+                            tvRefresh.setVisibility(View.GONE);
+                            break;
+                        case ACTION_PULL_UP:
+                            mAdapter.addData(arrayList);
+                            L.i("main", "pull_up被执行");
+                            break;
+                    }
+                } else {
+                    mAdapter.setMore(false);
+                    if (action == ACTION_PULL_UP) {
+                        mAdapter.setFooterText("没有更多数据");
+                    }
+                }
             }
+
             @Override
             public void onError(String error) {
                 srl.setRefreshing(false);
