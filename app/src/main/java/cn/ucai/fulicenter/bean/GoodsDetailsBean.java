@@ -1,5 +1,6 @@
 package cn.ucai.fulicenter.bean;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -57,7 +58,7 @@ public class GoodsDetailsBean {
 
     private String shareUrl;
 
-    private List<PropertiesBean> properties ;
+    private PropertiesBean[] properties;
 
     private boolean promote;
 
@@ -154,10 +155,10 @@ public class GoodsDetailsBean {
     public String getShareUrl(){
         return this.shareUrl;
     }
-    public void setProperties(List<PropertiesBean> properties){
+    public void setProperties(PropertiesBean[] properties){
         this.properties = properties;
     }
-    public List<PropertiesBean> getProperties(){
+    public PropertiesBean[] getProperties(){
         return this.properties;
     }
     public void setPromote(boolean promote){
@@ -185,7 +186,7 @@ public class GoodsDetailsBean {
                 ", goodsImg='" + goodsImg + '\'' +
                 ", addTime=" + addTime +
                 ", shareUrl='" + shareUrl + '\'' +
-                ", properties=" + properties +
+                ", properties=" + Arrays.toString(properties) +
                 ", promote=" + promote +
                 '}';
     }
