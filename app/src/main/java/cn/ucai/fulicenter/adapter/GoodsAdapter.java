@@ -30,9 +30,28 @@ public class GoodsAdapter extends RecyclerView.Adapter {
     Context context;
 
     String footerText;
+    boolean isMore;
     public GoodsAdapter(Context context, ArrayList<NewGoodsBean> goodsList) {
         this.context = context;
         this.goodsList = goodsList;
+    }
+
+    public boolean isMore() {
+        return isMore;
+    }
+
+    public void setMore(boolean more) {
+        isMore = more;
+        notifyDataSetChanged();
+    }
+
+    public String getFooterText() {
+        return footerText;
+    }
+
+    public void setFooterText(String footerText) {
+        this.footerText = footerText;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -85,7 +104,10 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         if(goodsList!=null){
             goodsList.clear();
         }
-        L.i("main","initData:list="+list.get(0).toString());
+        this.goodsList.addAll(list);
+        notifyDataSetChanged();
+    }
+    public void addData(ArrayList<NewGoodsBean> list){
         this.goodsList.addAll(list);
         notifyDataSetChanged();
     }
