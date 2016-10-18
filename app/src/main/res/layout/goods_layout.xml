@@ -4,7 +4,7 @@
     android:id="@+id/goods_layout"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/ivGoodsAvatar"
         android:layout_width="match_parent"
@@ -16,8 +16,7 @@
         android:layout_height="wrap_content"
         android:text="双层分隔饭盒,绿色"
         android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:textSize="20dp"/>
+        android:layout_marginTop="10dp" />
     <TextView
         android:id="@+id/tvGoodsPrice"
         android:layout_below="@+id/tvGoodsName"
@@ -26,6 +25,5 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="￥220"
-        android:textColor="#fd000d"
-        android:textSize="20dp"/>
+        android:textColor="#fd000d" />
 </RelativeLayout>

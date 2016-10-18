@@ -13,14 +13,17 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.L;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
+import cn.ucai.fulicenter.net.ImageLoader;
 
 /**
  * Created by Administrator on 2016/10/17 0017.
  */
 public class GoodsAdapter extends RecyclerView.Adapter {
+    RecyclerView parent;
     final static int TYPE_GOODS = 0;
     final static int TYPE_FOOTER = 1;
     ArrayList<NewGoodsBean> goodsList;
@@ -61,7 +64,7 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         NewGoodsBean goods = goodsList.get(position);
         goodsViewHolder.tvGoodsName.setText(goods.getGoodsName());
         goodsViewHolder.tvGoodsPrice.setText(goods.getCurrencyPrice());
-//        goodsViewHolder.ivGoodsAvatar.setImageDrawable(R.drawable.);
+        ImageLoader.downloadImg(context,goodsViewHolder.ivGoodsAvatar,goods.getGoodsThumb(),true);
     }
 
     @Override
@@ -79,9 +82,9 @@ public class GoodsAdapter extends RecyclerView.Adapter {
     }
 
     public void initData(ArrayList<NewGoodsBean> list){
-       /* if(goodsList!=null){
+        if(goodsList!=null){
             goodsList.clear();
-        }*/
+        }
         L.i("main","initData:list="+list.get(0).toString());
         this.goodsList.addAll(list);
         notifyDataSetChanged();

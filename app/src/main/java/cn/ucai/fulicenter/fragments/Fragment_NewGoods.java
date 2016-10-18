@@ -79,6 +79,7 @@ public class Fragment_NewGoods extends Fragment {
         NetDao.downLoadNewGoods(getContext(),PAGE_ID,new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
             @Override
             public void onSuccess(NewGoodsBean[] result) {
+
                if(result!=null&&result.length>0){
 //                   L.i("main","result:"+result.toString());
                    ArrayList<NewGoodsBean> arrayList = ConvertUtils.array2List(result);
