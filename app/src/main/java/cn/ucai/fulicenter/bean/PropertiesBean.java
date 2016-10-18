@@ -32,7 +32,7 @@ public class PropertiesBean {
 
     private String colorUrl;
 
-    private List<AlbumsBean> albumsBean ;
+    private AlbumsBean[] albums ;
 
     public PropertiesBean() {
     }
@@ -79,11 +79,11 @@ public class PropertiesBean {
     public String getColorUrl(){
         return this.colorUrl;
     }
-    public void setAlbums(List<AlbumsBean> albums){
-        this.albumsBean = albumsBean;
+    public void setAlbums(AlbumsBean[] albums){
+        this.albums = albums;
     }
-    public List<AlbumsBean> getAlbums(){
-        return this.albumsBean;
+    public AlbumsBean[] getAlbums(){
+        return this.albums;
     }
 
     @Override
@@ -96,7 +96,7 @@ public class PropertiesBean {
                 ", colorCode='" + colorCode + '\'' +
                 ", colorImg='" + colorImg + '\'' +
                 ", colorUrl='" + colorUrl + '\'' +
-                ", albumsBean=" + albumsBean +
+                ", albumsBean=" + albums +
                 '}';
     }
 }

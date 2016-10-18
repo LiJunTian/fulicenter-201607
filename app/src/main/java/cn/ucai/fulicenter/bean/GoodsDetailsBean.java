@@ -54,13 +54,12 @@ public class GoodsDetailsBean {
 
     private String goodsImg;
 
-    private int addTime;
+    private long addTime;
 
     private String shareUrl;
 
     private PropertiesBean[] properties;
 
-    private boolean promote;
 
     public GoodsDetailsBean() {
     }
@@ -143,10 +142,10 @@ public class GoodsDetailsBean {
     public String getGoodsImg(){
         return this.goodsImg;
     }
-    public void setAddTime(int addTime){
+    public void setAddTime(long addTime){
         this.addTime = addTime;
     }
-    public int getAddTime(){
+    public long getAddTime(){
         return this.addTime;
     }
     public void setShareUrl(String shareUrl){
@@ -160,12 +159,6 @@ public class GoodsDetailsBean {
     }
     public PropertiesBean[] getProperties(){
         return this.properties;
-    }
-    public void setPromote(boolean promote){
-        this.promote = promote;
-    }
-    public boolean getPromote(){
-        return this.promote;
     }
 
     @Override
@@ -187,7 +180,6 @@ public class GoodsDetailsBean {
                 ", addTime=" + addTime +
                 ", shareUrl='" + shareUrl + '\'' +
                 ", properties=" + Arrays.toString(properties) +
-                ", promote=" + promote +
                 '}';
     }
 }
