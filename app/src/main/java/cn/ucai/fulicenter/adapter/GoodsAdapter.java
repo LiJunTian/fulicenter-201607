@@ -1,7 +1,6 @@
 package cn.ucai.fulicenter.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +18,6 @@ import cn.ucai.fulicenter.FooterViewHolder;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.MFGT;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.activity.GoodsDetailsActivity;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
 import cn.ucai.fulicenter.net.ImageLoader;
 
@@ -27,13 +25,9 @@ import cn.ucai.fulicenter.net.ImageLoader;
  * Created by Administrator on 2016/10/17 0017.
  */
 public class GoodsAdapter extends RecyclerView.Adapter {
-    RecyclerView parent;
-    final static int TYPE_GOODS = 0;
-    final static int TYPE_FOOTER = 1;
     ArrayList<NewGoodsBean> goodsList;
     Context context;
 
-    String footerText;
     boolean isMore;
     public GoodsAdapter(Context context, ArrayList<NewGoodsBean> goodsList) {
         this.context = context;
@@ -49,13 +43,8 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-    public String getFooterText() {
-        return footerText;
-    }
-
-    public void setFooterText(String footerText) {
-        this.footerText = footerText;
-        notifyDataSetChanged();
+    public boolean getFooterText() {
+        return isMore;
     }
 
     @Override
@@ -64,11 +53,11 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         LayoutInflater inflater = LayoutInflater.from(context);
         View layout = null;
         switch (viewType) {
-            case TYPE_GOODS:
+            case I.TYPE_ITEM:
                 layout = inflater.inflate(R.layout.goods_layout, parent, false);
                 holder = new GoodsViewHolder(layout);
                 break;
-            case TYPE_FOOTER:
+            case I.TYPE_FOOTER:
                 layout = inflater.inflate(R.layout.footer_layout, parent, false);
                 holder = new FooterViewHolder(layout);
                 break;
@@ -80,7 +69,7 @@ public class GoodsAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (position == getItemCount() - 1) {
             FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
-            footerViewHolder.footerLayout.setText(footerText);
+            footerViewHolder.footerLayout.setText(getText());
             return;
         }
         GoodsViewHolder goodsViewHolder = (GoodsViewHolder) holder;
@@ -91,6 +80,9 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         goodsViewHolder.goodsLayout.setTag(goods.getGoodsId());
     }
 
+    public int getText(){
+        return isMore()? R.string.now_refresh:R.string.no_more;
+    }
     @Override
     public int getItemCount() {
         return goodsList == null ? 1 : goodsList.size() + 1;
@@ -99,9 +91,9 @@ public class GoodsAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         if (position == getItemCount() - 1) {
-            return TYPE_FOOTER;
+            return I.TYPE_FOOTER;
         } else {
-            return TYPE_GOODS;
+            return I.TYPE_ITEM;
         }
     }
 
@@ -135,14 +127,4 @@ public class GoodsAdapter extends RecyclerView.Adapter {
             MFGT.gotoGoodsDetailActivity(context,goodsId);
         }
     }
-
-      /*class FooterViewHolder extends RecyclerView.ViewHolder{
-        @BindView(R.id.footer_layout)
-        TextView footerLayout;
-
-         FooterViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
-        }
-    }*/
 }
