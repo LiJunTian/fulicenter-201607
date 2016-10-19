@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import cn.ucai.fulicenter.activity.BoutiqueDetailActivity;
 import cn.ucai.fulicenter.activity.GoodsDetailsActivity;
 import cn.ucai.fulicenter.activity.MainActivity;
 
@@ -24,6 +25,11 @@ public class MFGT {//从哪来到哪去move from go to
         startActivity(context,intent);
     }
 
+    public static void startActivity(Context context,Intent intent){
+        context.startActivity(intent);
+        ((Activity)context).overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
+    }
+
     public static void gotoGoodsDetailActivity(Context context, int goodsId){
         Intent intent = new Intent();
         intent.setClass(context,GoodsDetailsActivity.class);
@@ -31,8 +37,11 @@ public class MFGT {//从哪来到哪去move from go to
         startActivity(context,intent);
     }
 
-    public static void startActivity(Context context,Intent intent){
-        context.startActivity(intent);
-        ((Activity)context).overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
+    public static void gotoBoutiqueDetailActivity(Context context,int boutiqueId,String title){
+        Intent intent = new Intent();
+        intent.setClass(context, BoutiqueDetailActivity.class);
+        intent.putExtra(I.Boutique.ID,boutiqueId);
+        intent.putExtra(I.Boutique.TITLE,title);
+        startActivity(context,intent);
     }
 }
