@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/iv_boutiqueImage"
+        android:layout_width="150dp"
+        android:layout_height="150dp" />
+    <TextView
+        android:id="@+id/tv_boutiqueTitle"
+        android:layout_toRightOf="@+id/iv_boutiqueImage"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="不一样的新妆，不一样的美丽"
+        android:textColor="#e10b0b"/>
+    <TextView
+        android:id="@+id/tv_boutiqueName"
+        android:layout_toRightOf="@+id/iv_boutiqueImage"
+        android:layout_below="@+id/tv_boutiqueTitle"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="拯救头发，美丽新妆" />
+    <TextView
+        android:id="@+id/tv_boutiqueDescription"
+        android:layout_toRightOf="@+id/iv_boutiqueImage"
+        android:layout_below="@+id/tv_boutiqueName"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="快速增长修护预防脱发洗发水让头发健康快速生长更美丽"/>
+</RelativeLayout>
