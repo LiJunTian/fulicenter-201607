@@ -1,7 +1,7 @@
 package cn.ucai.fulicenter.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -10,10 +10,12 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.ucai.fulicenter.CommonUtils;
 import cn.ucai.fulicenter.FlowIndicator;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.L;
+import cn.ucai.fulicenter.MFGT;
 import cn.ucai.fulicenter.NetDao;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.SlideAutoLoopView;
@@ -21,8 +23,7 @@ import cn.ucai.fulicenter.bean.AlbumsBean;
 import cn.ucai.fulicenter.bean.GoodsDetailsBean;
 import cn.ucai.fulicenter.net.OkHttpUtils;
 
-public class GoodsDetailsActivity extends AppCompatActivity {
-    SlideAutoLoopView slideAutoLoopView;
+public class GoodsDetailsActivity extends BaseActivity {
     @BindView(R.id.iv_title_arrow)
     ImageView ivTitleArrow;
     @BindView(R.id.iv_title_cart)
@@ -55,7 +56,6 @@ public class GoodsDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_details);
         ButterKnife.bind(this);
         goodsId = getIntent().getIntExtra(I.GoodsDetails.KEY_GOODS_ID, 0);
@@ -65,20 +65,22 @@ public class GoodsDetailsActivity extends AppCompatActivity {
             finish();
         }
         mContext = this;
-        initView();
-        initData();
-        setListener();
+        super.onCreate(savedInstanceState);
     }
 
-    private void setListener() {
+    public void onBackPressed(View view){
+        finish();
+    }
+    @Override
+    protected void setListener() {
 
     }
-
-    private void initView() {
+    @Override
+    protected void initView() {
 
     }
-
-    private void initData() {
+    @Override
+    protected void initData() {
         NetDao.downloadGoodsDetail(mContext, goodsId, new OkHttpUtils.OnCompleteListener<GoodsDetailsBean>() {
             @Override
             public void onSuccess(GoodsDetailsBean result) {
@@ -124,5 +126,9 @@ public class GoodsDetailsActivity extends AppCompatActivity {
             }
         }
         return urls;
+    }
+    @OnClick(R.id.iv_title_arrow)
+    public void OnClick(){
+        MFGT.finish(this);
     }
 }
