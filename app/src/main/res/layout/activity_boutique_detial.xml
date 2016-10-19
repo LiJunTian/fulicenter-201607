@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.BoutiqueDetailActivity">
+    <LinearLayout
+        android:id="@+id/boutique_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/good_detail_title_bg">
+        <ImageView
+            android:id="@+id/iv_title_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back"/>
+        <TextView
+            android:id="@+id/tv_title_Name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@color/text_color_hint"
+            android:text="拯救头发，美丽新装"/>
+    </LinearLayout>
+    <include
+        layout="@layout/fragment_fragment__new_goods"/>
+</LinearLayout>
