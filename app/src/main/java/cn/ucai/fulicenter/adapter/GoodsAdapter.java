@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.ucai.fulicenter.FooterViewHolder;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.MFGT;
 import cn.ucai.fulicenter.R;
@@ -135,7 +136,7 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         }
     }
 
-      class FooterViewHolder extends RecyclerView.ViewHolder{
+      /*class FooterViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.footer_layout)
         TextView footerLayout;
 
@@ -143,5 +144,5 @@ public class GoodsAdapter extends RecyclerView.Adapter {
             super(view);
             ButterKnife.bind(this, view);
         }
-    }
+    }*/
 }
