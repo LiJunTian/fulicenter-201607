@@ -26,8 +26,6 @@ import cn.ucai.fulicenter.fragments.Fragment_NewGoods;
 import cn.ucai.fulicenter.fragments.Fragment_PersonCenter;
 
 public class MainActivity extends AppCompatActivity {
-    List<Fragment> list = new ArrayList<>();
-
     int index;
     int currentIndex = 0;
     Fragment[] mFragments;
@@ -60,11 +58,11 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initView();
         initFragment();
+        addFragment();
     }
 
     private void initFragment() {
         L.i("main","初始化fragment");
-        mFragments = new Fragment[5];
         mFragment_newGoods = new Fragment_NewGoods();
         mFragment_Boutique = new Fragment_Boutique();
         mFragment_Category = new Fragment_Category();
@@ -75,19 +73,22 @@ public class MainActivity extends AppCompatActivity {
                 .add(R.id.main_FragmentLayout,mFragment_newGoods)
                 .show(mFragment_newGoods)
                 .commit();*/
+    }
 
-        list.add(mFragment_newGoods);
-        list.add(mFragment_Boutique);
-        list.add(mFragment_Category);
-        list.add(mFragment_Cart);
-        list.add(mFragment_PersonCenter);
+    private void addFragment() {
+        mFragments = new Fragment[5];
+        mFragments[0] = mFragment_newGoods;
+        mFragments[1] = mFragment_Boutique;
+        mFragments[2] = mFragment_Category;
+        mFragments[3] = mFragment_Cart;
+        mFragments[4] = mFragment_PersonCenter;
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.main_FragmentLayout,mFragment_newGoods);
-        transaction.add(R.id.main_FragmentLayout,mFragment_Boutique).hide(mFragment_Boutique);
-        transaction.add(R.id.main_FragmentLayout,mFragment_Category).hide(mFragment_Category);
-        transaction.add(R.id.main_FragmentLayout,mFragment_Cart).hide(mFragment_Cart);
-        transaction.add(R.id.main_FragmentLayout,mFragment_PersonCenter).hide(mFragment_PersonCenter);
+        transaction.add(R.id.main_FragmentLayout,mFragments[0]);
+        transaction.add(R.id.main_FragmentLayout,mFragments[1]).hide(mFragments[1]);
+        transaction.add(R.id.main_FragmentLayout,mFragments[2]).hide(mFragments[2]);
+        transaction.add(R.id.main_FragmentLayout,mFragments[3]).hide(mFragments[3]);
+        transaction.add(R.id.main_FragmentLayout,mFragments[4]).hide(mFragments[4]);
         transaction.commit();
     }
 
@@ -100,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         rbs[4] = mainRbPersonalCenter;
     }
     public void onCheckedChange(View view){
-        L.i("onCheckedChange---");
+        L.i("onCheckedChange...");
         switch(view.getId()){
             case R.id.main_rbNewGoods:
                 index = 0;
@@ -128,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         L.i("main","index="+index+",currentIndex="+currentIndex);
-        getSupportFragmentManager().beginTransaction().show(list.get(index)).hide(list.get(currentIndex)).commit();
+        getSupportFragmentManager().beginTransaction().show(mFragments[index]).hide(mFragments[currentIndex]).commit();
     }
 
     private void setRadioButtonStatus() {
