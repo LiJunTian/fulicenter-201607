@@ -1,13 +1,13 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="cn.ucai.fulicenter.fragments.Fragment_Category">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ExpandableListView
+        android:id="@+id/elv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="category" />
+        android:dividerHeight="10dp" />
 
 </FrameLayout>
