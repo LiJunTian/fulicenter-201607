@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import cn.ucai.fulicenter.activity.BoutiqueDetailActivity;
+import cn.ucai.fulicenter.activity.CategoryChildActivity;
 import cn.ucai.fulicenter.activity.GoodsDetailsActivity;
 import cn.ucai.fulicenter.activity.MainActivity;
 
@@ -42,6 +43,14 @@ public class MFGT {//从哪来到哪去move from go to
         intent.setClass(context, BoutiqueDetailActivity.class);
         intent.putExtra(I.Boutique.ID,boutiqueId);
         intent.putExtra(I.Boutique.TITLE,title);
+        startActivity(context,intent);
+    }
+
+    public static void gotoCategoryChildActivity(Context context,int catId,String title){
+        Intent intent = new Intent();
+        intent.setClass(context, CategoryChildActivity.class);
+        intent.putExtra(I.CategoryChild.CAT_ID,catId);
+        intent.putExtra(I.CategoryGroup.NAME,title);
         startActivity(context,intent);
     }
 }
