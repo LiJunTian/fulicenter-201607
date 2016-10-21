@@ -10,12 +10,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.fulicenter.FooterViewHolder;
 import cn.ucai.fulicenter.I;
+import cn.ucai.fulicenter.L;
 import cn.ucai.fulicenter.MFGT;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
@@ -27,6 +30,8 @@ import cn.ucai.fulicenter.net.ImageLoader;
 public class GoodsAdapter extends RecyclerView.Adapter {
     ArrayList<NewGoodsBean> goodsList;
     Context context;
+
+    static ArrayList<NewGoodsBean> compareList;
 
     boolean isMore;
     public GoodsAdapter(Context context, ArrayList<NewGoodsBean> goodsList) {
@@ -101,10 +106,13 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         if(goodsList!=null){
             goodsList.clear();
         }
+        compareList = list;
         this.goodsList.addAll(list);
         notifyDataSetChanged();
     }
+
     public void addData(ArrayList<NewGoodsBean> list){
+        compareList = list;
         this.goodsList.addAll(list);
         notifyDataSetChanged();
     }
@@ -125,6 +133,63 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         public void onGoodsItemClick(){
             int goodsId = (int) goodsLayout.getTag();
             MFGT.gotoGoodsDetailActivity(context,goodsId);
+        }
+    }
+
+
+    public void setSortBy(int sortType) {
+        PriceCompare priceCompare;
+        AddTimeCompare addTimeCompare;
+        switch (sortType) {
+            case I.SORT_BY_PRICE_ASC:
+                priceCompare = new PriceCompare();
+                priceCompare.sortTypeId = 0;
+                Collections.sort(compareList, priceCompare);
+                break;
+            case I.SORT_BY_PRICE_DESC:
+                priceCompare = new PriceCompare();
+                priceCompare.sortTypeId = 1;
+                Collections.sort(compareList,priceCompare);
+                break;
+            case I.SORT_BY_ADDTIME_ASC:
+                addTimeCompare = new AddTimeCompare();
+                addTimeCompare.sortTypeId = 2;
+                Collections.sort(compareList,addTimeCompare);
+                break;
+            case I.SORT_BY_ADDTIME_DESC:
+                addTimeCompare = new AddTimeCompare();
+                addTimeCompare.sortTypeId = 3;
+                Collections.sort(compareList,addTimeCompare);
+                break;
+        }
+        initData(compareList);
+    }
+
+    private class PriceCompare implements Comparator<NewGoodsBean>{
+        int sortTypeId;
+        @Override
+        public int compare(NewGoodsBean bean1, NewGoodsBean bean2) {
+            String str1 = bean1.getCurrencyPrice();
+            str1 = str1.substring(str1.indexOf("￥")+1);
+            String str2 = bean2.getCurrencyPrice();
+            str2 = str2.substring(str2.indexOf("￥")+1);
+            if(sortTypeId==0){
+                return Integer.parseInt(str1)-Integer.parseInt(str2);
+            }
+            return Integer.parseInt(str2)-Integer.parseInt(str1);
+        }
+    }
+
+    private class AddTimeCompare implements Comparator<NewGoodsBean>{
+        int sortTypeId;
+        @Override
+        public int compare(NewGoodsBean bean1, NewGoodsBean bean2) {
+            String str1 = bean1.getAddTime();
+            String str2 = bean2.getAddTime();
+            if(sortTypeId==2){
+                return (int) (Long.valueOf(str1)-Long.valueOf(str2));
+            }
+            return (int) (Long.valueOf(str2)-Long.valueOf(str1));
         }
     }
 }
