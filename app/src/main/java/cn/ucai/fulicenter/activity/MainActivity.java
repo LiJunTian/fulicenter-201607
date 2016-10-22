@@ -1,5 +1,6 @@
 package cn.ucai.fulicenter.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,7 +18,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.L;
+import cn.ucai.fulicenter.MFGT;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.fragments.Fragment_Boutique;
 import cn.ucai.fulicenter.fragments.Fragment_Cart;
@@ -51,6 +54,16 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.main_RadioGroup)
     LinearLayout mainRadioGroup;
 
+    private String userName;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +72,12 @@ public class MainActivity extends AppCompatActivity {
         initView();
         initFragment();
         addFragment();
+        /*setUserName(getIntent().getStringExtra(I.User.USER_NAME));
+        if(userName!=null){
+            index = 4;
+            setRadioButtonStatus();
+            switchFragment(index);
+        }*/
     }
 
     private void initFragment() {
@@ -116,7 +135,12 @@ public class MainActivity extends AppCompatActivity {
                 index = 3;
                 break;
             case R.id.main_rbPersonalCenter:
-                index = 4;
+                if(getUserName()==null){
+//                    MFGT.gotoLoginActivity(this);
+                    startActivityForResult(new Intent(this,LoginActivity.class),I.REQUEST_CODE_LOGIN);
+                }else{
+                    index = 4;
+                }
                 break;
         }
         switchFragment(index);
@@ -138,6 +162,19 @@ public class MainActivity extends AppCompatActivity {
                 rbs[i].setChecked(true);
             }else{
                 rbs[i].setChecked(false);
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK&&requestCode==I.REQUEST_CODE_LOGIN){
+            setUserName(data.getStringExtra(I.User.USER_NAME));
+            if(getUserName()!=null){
+                index = 4;
+                setRadioButtonStatus();
+                switchFragment(index);
             }
         }
     }
