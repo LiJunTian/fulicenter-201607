@@ -56,11 +56,11 @@ public class CatChildFilterButton extends Button {
     private void initPopupWindow() {
         mPopupWindow=new PopupWindow();
         mPopupWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
-        if(mgvCategory.getAdapter().getCount()<16){
+//        if(mgvCategory.getAdapter().getCount()<16){
             mPopupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-        }else{
+      /*  }else{
             mPopupWindow.setHeight(ConvertUtils.px2dp(mContext, 200));
-        }
+        }*/
         mPopupWindow.setTouchable(true);
         mPopupWindow.setOutsideTouchable(true);
         mPopupWindow.setBackgroundDrawable(new ColorDrawable(0xbb000000));
@@ -127,11 +127,11 @@ public class CatChildFilterButton extends Button {
         public View getView(int position, View layout, final ViewGroup parent) {
             ViewChildHolder holder=null;
             if(layout==null){
-                layout= View.inflate(context, R.layout.category_child, null);
+                layout= View.inflate(context, R.layout.item_cat_filter, null);
                 holder=new ViewChildHolder();
-                holder.layoutItem=(RelativeLayout) layout.findViewById(R.id.category_child);
-                holder.ivThumb=(ImageView) layout.findViewById(R.id.iv_child_image);
-                holder.tvChildName=(TextView) layout.findViewById(R.id.tv_child_name);
+                holder.layoutItem=(RelativeLayout) layout.findViewById(R.id.layout_category_child);
+                holder.ivThumb=(ImageView) layout.findViewById(R.id.ivCategoryChildThumb);
+                holder.tvChildName=(TextView) layout.findViewById(R.id.tvCategoryChildName);
                 layout.setTag(holder);
             }else{
                 holder=(ViewChildHolder) layout.getTag();
@@ -150,8 +150,8 @@ public class CatChildFilterButton extends Button {
                     }
                     Intent intent=new Intent(mContext, CategoryChildActivity.class);
                     intent.putExtra(I.CategoryChild.CAT_ID, child.getId());
-                    intent.putExtra("childList", Children);
                     intent.putExtra(I.CategoryGroup.NAME, mbtnTop.getText().toString());
+                    intent.putExtra(I.CategoryChild.ID, Children);
                     mContext.startActivity(intent);
                     ((CategoryChildActivity)mContext).finish();
                 }
