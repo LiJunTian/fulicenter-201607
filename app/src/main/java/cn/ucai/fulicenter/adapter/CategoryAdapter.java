@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.ucai.fulicenter.L;
 import cn.ucai.fulicenter.MFGT;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.CategoryChildBean;
@@ -23,6 +24,7 @@ import cn.ucai.fulicenter.net.ImageLoader;
  * Created by Administrator on 2016/10/20 0020.
  */
 public class CategoryAdapter extends BaseExpandableListAdapter {
+    static final String TAG = CategoryAdapter.class.getSimpleName();
     Context mContext;
     ArrayList<CategoryGroupBean> groupList;
     ArrayList<ArrayList<CategoryChildBean>> childList;
@@ -91,7 +93,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isExpanded, View view, ViewGroup viewGroup) {
+    public View getChildView(final int groupPosition, int childPosition, boolean isExpanded, View view, ViewGroup viewGroup) {
         ChildViewHolder holder;
         if (view == null) {
             view = View.inflate(mContext, R.layout.category_child, null);
@@ -99,22 +101,22 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
             view.setTag(holder);
         } else {
             holder = (ChildViewHolder) view.getTag();
-
         }
-        CategoryChildBean child = childList.get(groupPosition).get(childPosition);
-        final int id = child.getId();
-        final String title = groupList.get(groupPosition).getName();
-        holder.categoryChild.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                MFGT.gotoCategoryChildActivity(mContext,id,title);
-            }
-        });
-
+        final CategoryChildBean child = childList.get(groupPosition).get(childPosition);
         if (child != null) {
+//            final String title = groupList.get(groupPosition).getName();
             ImageLoader.downloadImg(mContext, holder.ivChildImage, child.getImageUrl());
             holder.tvChildName.setText(child.getName());
+            holder.categoryChild.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ArrayList<CategoryChildBean> list = childList.get(groupPosition);
+                    int id = child.getId();
+                    String title = groupList.get(groupPosition).getName();
+                    L.e(TAG,list.get(0).toString());
+                    MFGT.gotoCategoryChildActivity(mContext,id,title,list);
+                }
+            });
         }
         return view;
     }

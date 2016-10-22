@@ -3,6 +3,7 @@ package cn.ucai.fulicenter.activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.ucai.fulicenter.CatChildFilterButton;
 import cn.ucai.fulicenter.CommonUtils;
 import cn.ucai.fulicenter.ConvertUtils;
 import cn.ucai.fulicenter.I;
@@ -25,6 +27,7 @@ import cn.ucai.fulicenter.MFGT;
 import cn.ucai.fulicenter.NetDao;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.adapter.GoodsAdapter;
+import cn.ucai.fulicenter.bean.CategoryChildBean;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
 import cn.ucai.fulicenter.net.OkHttpUtils;
 
@@ -39,8 +42,8 @@ public class CategoryChildActivity extends BaseActivity {
 
     @BindView(R.id.category_title_back)
     ImageView categoryTitleBack;
-    @BindView(R.id.category_title_name)
-    TextView categoryTitleName;
+    /*@BindView(R.id.category_title_name)
+    TextView categoryTitleName;*/
     @BindView(R.id.category_title)
     RelativeLayout categoryTitle;
     @BindView(R.id.tv_refresh)
@@ -53,6 +56,8 @@ public class CategoryChildActivity extends BaseActivity {
     Button btnSortPrice;
     @BindView(R.id.btn_sort_addTime)
     Button btnSortAddTime;
+    @BindView(R.id.catChildFilterButton)
+    CatChildFilterButton catChildFilterButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +65,6 @@ public class CategoryChildActivity extends BaseActivity {
         mContext = this;
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -72,6 +76,12 @@ public class CategoryChildActivity extends BaseActivity {
     @Override
     protected void initData() {
         downloadData(I.ACTION_DOWNLOAD, pageId);
+        cartId = getIntent().getIntExtra(I.CategoryChild.CAT_ID, 0);
+        title = getIntent().getStringExtra(I.CategoryGroup.NAME);
+        L.e("childId", "id=" + cartId + ",title=" + title);
+        catChildFilterButton.setText(title);
+        ArrayList<CategoryChildBean> list = (ArrayList<CategoryChildBean>) getIntent().getSerializableExtra(I.CategoryChild.ID);
+        catChildFilterButton.setOnCatFilterClickListener(title,list);
     }
 
     @Override
@@ -120,16 +130,12 @@ public class CategoryChildActivity extends BaseActivity {
     }
 
     private void downloadData(final int action, int pageId) {
-        cartId = getIntent().getIntExtra(I.CategoryChild.CAT_ID, 0);
-        title = getIntent().getStringExtra(I.CategoryGroup.NAME);
-        L.e("childId", "id=" + cartId + ",title=" + title);
         NetDao.downloadCategoryChildDetails(mContext, cartId, pageId, new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
             @Override
             public void onSuccess(NewGoodsBean[] result) {
                 srl.setRefreshing(false);
                 tvRefresh.setVisibility(View.GONE);
                 if (result != null && result.length > 0) {
-                    categoryTitleName.setText(title);
                     L.e("boutique", "result=" + result[0].toString());
                     goodsAdapter.setMore(true);
                     ArrayList<NewGoodsBean> newGoodsBeenList = ConvertUtils.array2List(result);
@@ -177,8 +183,8 @@ public class CategoryChildActivity extends BaseActivity {
                     sortBy = I.SORT_BY_PRICE_DESC;
                     right = getResources().getDrawable(R.mipmap.arrow_order_down);
                 }
-                right.setBounds(0,0,right.getIntrinsicWidth(),right.getIntrinsicHeight());
-                btnSortPrice.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,right,null);
+                right.setBounds(0, 0, right.getIntrinsicWidth(), right.getIntrinsicHeight());
+                btnSortPrice.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, right, null);
                 priceAsc = !priceAsc;
                 break;
             case R.id.btn_sort_addTime:
@@ -189,11 +195,28 @@ public class CategoryChildActivity extends BaseActivity {
                     sortBy = I.SORT_BY_ADDTIME_DESC;
                     right = getResources().getDrawable(R.mipmap.arrow_order_down);
                 }
-                right.setBounds(0,0,right.getIntrinsicWidth(),right.getIntrinsicHeight());
-                btnSortAddTime.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,right,null);
+                right.setBounds(0, 0, right.getIntrinsicWidth(), right.getIntrinsicHeight());
+                btnSortAddTime.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, right, null);
                 addTimeAsc = !addTimeAsc;
                 break;
         }
         goodsAdapter.setSortBy(sortBy);
     }
+
+    /*boolean isDown = true;
+    @OnClick(R.id.catChildFilterButton)
+    public void onClick(){
+        if(isDown){
+            Drawable up = getResources().getDrawable(R.drawable.arrow2_up);
+            up.setBounds(0,0,up.getIntrinsicWidth(),up.getIntrinsicHeight());
+            catChildFilterButton.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,up,null);
+            isDown = !isDown;
+        }else{
+            Drawable up = getResources().getDrawable(R.drawable.arrow2_down);
+            up.setBounds(0,0,up.getIntrinsicWidth(),up.getIntrinsicHeight());
+            catChildFilterButton.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,up,null);
+            isDown = !isDown;
+        }
+//        catChildFilterButton.setOnCatFilterClickListener();
+    }*/
 }
