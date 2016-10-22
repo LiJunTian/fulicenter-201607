@@ -7,6 +7,7 @@ import cn.ucai.fulicenter.bean.CategoryChildBean;
 import cn.ucai.fulicenter.bean.CategoryGroupBean;
 import cn.ucai.fulicenter.bean.GoodsDetailsBean;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
+import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.net.OkHttpUtils;
 
 /**
@@ -61,6 +62,26 @@ public class NetDao {
                 .addParam(I.PAGE_ID,String.valueOf(pageId))
                 .addParam(I.PAGE_SIZE,String.valueOf(I.PAGE_SIZE_DEFAULT))
                 .targetClass(NewGoodsBean[].class)
+                .execute(listener);
+    }
+
+    public static void Login(Context context, String userName, String password, OkHttpUtils.OnCompleteListener<Result> listener){
+        OkHttpUtils<Result> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_LOGIN)
+                .addParam(I.User.USER_NAME,userName)
+                .addParam(I.User.PASSWORD,password)
+                .targetClass(Result.class)
+                .execute(listener);
+    }
+
+    public static void Register(Context context,String userName,String nick,String password,OkHttpUtils.OnCompleteListener<Result> listener){
+        OkHttpUtils<Result> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_REGISTER)
+                .addParam(I.User.USER_NAME,userName)
+                .addParam(I.User.NICK,nick)
+                .addParam(I.User.PASSWORD,MD5.getMessageDigest(password))
+                .targetClass(Result.class)
+                .post()
                 .execute(listener);
     }
 }
