@@ -3,24 +3,18 @@ package cn.ucai.fulicenter.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.ucai.fulicenter.I;
-import cn.ucai.fulicenter.L;
-import cn.ucai.fulicenter.MFGT;
+import cn.ucai.fulicenter.adapter.FuLiCenterApplication;
+import cn.ucai.fulicenter.utils.I;
+import cn.ucai.fulicenter.utils.L;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.fragments.Fragment_Boutique;
 import cn.ucai.fulicenter.fragments.Fragment_Cart;
@@ -135,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 index = 3;
                 break;
             case R.id.main_rbPersonalCenter:
-                if(getUserName()==null){
+                if(FuLiCenterApplication.getUser()==null){
 //                    MFGT.gotoLoginActivity(this);
                     startActivityForResult(new Intent(this,LoginActivity.class),I.REQUEST_CODE_LOGIN);
                 }else{
@@ -166,6 +160,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+   /* @Override
+    protected  void onResume(){
+        super.onResume();
+        if(FuLiCenterApplication.getUser()!=null){
+            index = 4;
+        }
+    }*/
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -173,8 +175,10 @@ public class MainActivity extends AppCompatActivity {
             setUserName(data.getStringExtra(I.User.USER_NAME));
             if(getUserName()!=null){
                 index = 4;
+//                currentIndex = 0;
                 setRadioButtonStatus();
-                switchFragment(index);
+                switchFragment(4);
+                currentIndex = 4;
             }
         }
     }
