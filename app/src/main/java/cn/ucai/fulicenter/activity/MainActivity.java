@@ -3,6 +3,7 @@ package cn.ucai.fulicenter.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -95,14 +96,8 @@ public class MainActivity extends AppCompatActivity {
         mFragments[2] = mFragment_Category;
         mFragments[3] = mFragment_Cart;
         mFragments[4] = mFragment_PersonCenter;
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.main_FragmentLayout,mFragments[0]);
-        transaction.add(R.id.main_FragmentLayout,mFragments[1]).hide(mFragments[1]);
-        transaction.add(R.id.main_FragmentLayout,mFragments[2]).hide(mFragments[2]);
-        transaction.add(R.id.main_FragmentLayout,mFragments[3]).hide(mFragments[3]);
-        transaction.add(R.id.main_FragmentLayout,mFragments[4]).hide(mFragments[4]);
-        transaction.commit();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.main_FragmentLayout,mFragments[0]).show(mFragments[0]).commit();
     }
 
     private void initView() {
@@ -130,7 +125,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.main_rbPersonalCenter:
                 if(FuLiCenterApplication.getUser()==null){
-//                    MFGT.gotoLoginActivity(this);
+                    /*currentIndex = 4;
+                    setRadioButtonStatus(4);*/
                     startActivityForResult(new Intent(this,LoginActivity.class),I.REQUEST_CODE_LOGIN);
                 }else{
                     index = 4;
@@ -138,19 +134,23 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         switchFragment(index);
-        currentIndex = index;
-        setRadioButtonStatus();
     }
 
     private void switchFragment(int index) {
         if(currentIndex==index){
             return;
         }
-        L.i("main","index="+index+",currentIndex="+currentIndex);
-        getSupportFragmentManager().beginTransaction().show(mFragments[index]).hide(mFragments[currentIndex]).commit();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment fragment = mFragments[index];
+        if(!fragment.isAdded()){
+            ft.add(R.id.main_FragmentLayout,fragment);
+        }
+        ft.show(fragment).hide(mFragments[currentIndex]).commit();
+        setRadioButtonStatus(index);
+        currentIndex = index;
     }
 
-    private void setRadioButtonStatus() {
+    private void setRadioButtonStatus(int index) {
         for(int i = 0;i<rbs.length;i++){
             if(i == index){
                 rbs[i].setChecked(true);
@@ -160,13 +160,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-   /* @Override
-    protected  void onResume(){
+    @Override
+    protected void onResume() {
         super.onResume();
-        if(FuLiCenterApplication.getUser()!=null){
-            index = 4;
+        L.e("MainActivity","index="+index);
+        if(index==4&&FuLiCenterApplication.getUser()==null){
+            switchFragment(0);
         }
-    }*/
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -175,10 +176,7 @@ public class MainActivity extends AppCompatActivity {
             setUserName(data.getStringExtra(I.User.USER_NAME));
             if(getUserName()!=null){
                 index = 4;
-//                currentIndex = 0;
-                setRadioButtonStatus();
                 switchFragment(4);
-                currentIndex = 4;
             }
         }
     }

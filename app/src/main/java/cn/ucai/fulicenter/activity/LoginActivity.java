@@ -97,6 +97,7 @@ public class LoginActivity extends BaseActivity {
     @OnClick(R.id.title_back)
     public void onBackClick() {
         MFGT.finish(this);
+//        MFGT.gotoMainActivity(this);
     }
 
     @OnClick(R.id.btn_login)
