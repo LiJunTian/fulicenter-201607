@@ -2,12 +2,16 @@ package cn.ucai.fulicenter.net;
 
 import android.content.Context;
 
+import java.io.File;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import cn.ucai.fulicenter.bean.BoutiqueBean;
 import cn.ucai.fulicenter.bean.CategoryChildBean;
 import cn.ucai.fulicenter.bean.CategoryGroupBean;
 import cn.ucai.fulicenter.bean.GoodsDetailsBean;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
 import cn.ucai.fulicenter.bean.Result;
+import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.net.OkHttpUtils;
 import cn.ucai.fulicenter.utils.I;
 import cn.ucai.fulicenter.utils.L;
@@ -72,7 +76,7 @@ public class NetDao {
         OkHttpUtils<String> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_LOGIN)
                 .addParam(I.User.USER_NAME,userName)
-                .addParam(I.User.PASSWORD,password)
+                .addParam(I.User.PASSWORD,MD5.getMessageDigest(password))
                 .targetClass(String.class)
                 .execute(listener);
     }
@@ -84,6 +88,26 @@ public class NetDao {
                 .addParam(I.User.NICK,nick)
                 .addParam(I.User.PASSWORD, MD5.getMessageDigest(password))
                 .targetClass(Result.class)
+                .post()
+                .execute(listener);
+    }
+
+    public static void updateNick(Context context, String userName, String nick, OkHttpUtils.OnCompleteListener<String> listener){
+        OkHttpUtils<String> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_UPDATE_USER_NICK)
+                .addParam(I.User.USER_NAME,userName)
+                .addParam(I.User.NICK,nick)
+                .targetClass(String.class)
+                .execute(listener);
+    }
+
+    public static void updateAvatar(Context context,String userName,File file,OkHttpUtils.OnCompleteListener listener){
+        OkHttpUtils<String> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_UPDATE_AVATAR)
+                .addParam(I.NAME_OR_HXID,userName)
+                .addParam(I.AVATAR_TYPE,I.AVATAR_TYPE_USER_PATH)
+                .addFile2(file)
+                .targetClass(String.class)
                 .post()
                 .execute(listener);
     }
