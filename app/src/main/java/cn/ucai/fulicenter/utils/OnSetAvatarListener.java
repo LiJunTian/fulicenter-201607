@@ -145,7 +145,7 @@ public class OnSetAvatarListener implements View.OnClickListener {
 
     /**拍照:启动系统拍照的Activity，要求返回拍照结果*/
     private void takePicture() {
-        File file = FileUtils.getAvatarPath(mActivity,mAvatarType, mUserName + ".jpg");
+        File file = getAvatarPath(mActivity,mAvatarType, mUserName + ".jpg");
         Uri uri = Uri.fromFile(file);
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
@@ -198,7 +198,7 @@ public class OnSetAvatarListener implements View.OnClickListener {
             return;
         }
         ivAvatar.setImageBitmap(avatar);
-        File file = FileUtils.getAvatarPath(mActivity,mAvatarType, mUserName + ".jpg");
+        File file = getAvatarPath(mActivity,mAvatarType, mUserName + ".jpg");
         if(!file.getParentFile().exists()){
             Toast.makeText(mActivity, "照片保存失败,保存的路径不存在", Toast.LENGTH_LONG).show();
             return ;
@@ -223,7 +223,7 @@ public class OnSetAvatarListener implements View.OnClickListener {
         if (avatar == null) {
             return null;
         }
-        File file = FileUtils.getAvatarPath(context,avatarType, avatarName + ".jpg");
+        File file = getAvatarPath(context,avatarType, avatarName + ".jpg");
         if(!file.getParentFile().exists()){
             Toast.makeText(context, "照片保存失败,保存的路径不存在", Toast.LENGTH_LONG).show();
             return null;
@@ -294,4 +294,22 @@ public class OnSetAvatarListener implements View.OnClickListener {
         }
         return folder.getAbsolutePath();
     }
+
+    /**
+     * 返回头像的路径
+     * @param avatrType：头像的类型，user_avatar：用户头像，group_icon：群组logo
+     * @param fielName：头像的文件名，如a.jpg
+     * @return
+     */
+    public static File getAvatarPath(Activity activity, String avatrType, String fielName) {
+        File dir = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+//        File dir =Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        dir = new File(dir, avatrType);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        File file = new File(dir, fielName);
+        return file;
+    }
+
 }
