@@ -1,11 +1,10 @@
 package cn.ucai.fulicenter.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import cn.ucai.fulicenter.MFGT;
+import cn.ucai.fulicenter.utils.MFGT;
 
 /**
  * Created by Administrator on 2016/10/19 0019.

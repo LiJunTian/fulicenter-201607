@@ -13,8 +13,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import cn.ucai.fulicenter.I;
-import cn.ucai.fulicenter.L;
+import cn.ucai.fulicenter.bean.User;
+import cn.ucai.fulicenter.utils.I;
+import cn.ucai.fulicenter.utils.L;
 import cn.ucai.fulicenter.R;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -357,6 +358,20 @@ public class ImageLoader {
                 .defaultPicture(R.drawable.nopic)
                 .imageView(imageView)
                 .setDragging(isDragging)
+                .showImage(context);
+    }
+
+    public static String getAvatarUrl(User user){
+        String url = I.DOWNLOAD_AVATAR_URL + I.NAME_OR_HXID + I.EQUAL +user.getMuserName()
+                + I.AND + I.AVATAR_TYPE +I.EQUAL+user.getMavatarPath()+I.AND+I.AVATAR_SUFFIX
+                + I.EQUAL+user.getMavatarSuffix()+I.AND+"width=200&height=200";
+        L.e("userAvatar"+"="+url);
+        return url;
+    }
+    public static void setAvatar(String url,Context context,ImageView imageView){
+        ImageLoader.build(url)
+                .defaultPicture(R.drawable.contactlogo)
+                .imageView(imageView)
                 .showImage(context);
     }
 }

@@ -3,7 +3,7 @@
     android:id="@+id/boutique"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="150dp">
     <ImageView
         android:id="@+id/iv_boutiqueImage"
         android:layout_width="150dp"
@@ -12,7 +12,7 @@
         android:id="@+id/tv_boutiqueTitle"
         android:layout_toRightOf="@+id/iv_boutiqueImage"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="不一样的新妆，不一样的美丽"
@@ -21,7 +21,7 @@
         android:id="@+id/tv_boutiqueName"
         android:layout_toRightOf="@+id/iv_boutiqueImage"
         android:layout_below="@+id/tv_boutiqueTitle"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
         android:id="@+id/tv_boutiqueDescription"
         android:layout_toRightOf="@+id/iv_boutiqueImage"
         android:layout_below="@+id/tv_boutiqueName"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

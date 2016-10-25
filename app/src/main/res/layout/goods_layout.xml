@@ -2,18 +2,18 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/goods_layout"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="220dp">
     <ImageView
         android:id="@+id/ivGoodsAvatar"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"/>
     <TextView
         android:id="@+id/tvGoodsName"
         android:layout_below="@+id/ivGoodsAvatar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:text="双层分隔饭盒,绿色"
         android:gravity="center"
         android:layout_marginTop="10dp" />
@@ -22,7 +22,7 @@
         android:layout_below="@+id/tvGoodsName"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:gravity="center"
         android:text="￥220"
         android:textColor="#fd000d" />

@@ -14,10 +14,10 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.ucai.fulicenter.CommonUtils;
-import cn.ucai.fulicenter.ConvertUtils;
-import cn.ucai.fulicenter.L;
-import cn.ucai.fulicenter.NetDao;
+import cn.ucai.fulicenter.utils.CommonUtils;
+import cn.ucai.fulicenter.utils.ConvertUtils;
+import cn.ucai.fulicenter.utils.L;
+import cn.ucai.fulicenter.net.NetDao;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.adapter.BoutiqueAdapter;
 import cn.ucai.fulicenter.bean.BoutiqueBean;

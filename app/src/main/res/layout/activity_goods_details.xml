@@ -8,7 +8,7 @@
     <LinearLayout
         android:id="@+id/LL_GoodDetail_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:orientation="horizontal"
         android:background="@color/main_orange">
         <ImageView
@@ -16,6 +16,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:src="@mipmap/back_nomal"/>
         <TextView
             android:layout_width="0dp"
@@ -51,9 +52,9 @@
         android:id="@+id/RL_GoodDetail_Name"
         android:layout_below="@+id/LL_GoodDetail_title"
         android:layout_width="300dp"
-        android:layout_height="50dp"
+        android:layout_height="70dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp">
+        android:layout_marginTop="50dp">
         <TextView
             android:id="@+id/tvGoodsDetail_GoodsEnglishName"
             android:layout_width="wrap_content"
@@ -61,7 +62,7 @@
             android:text="EnglishName"/>
         <TextView
             android:id="@+id/tvGoodsDetail_GoodsName"
-            android:layout_below="@+id/tvGoodsDetail_GoodsEnglishName"
+            android:layout_alignParentBottom="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -71,7 +72,7 @@
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_alignParentBottom="true"
             android:text="￥293"
             android:textColor="#ef0b13"/>
     </RelativeLayout>
@@ -79,17 +80,18 @@
         android:id="@+id/RL_GoodDetail_Image"
         android:layout_below="@+id/RL_GoodDetail_Name"
         android:layout_marginTop="20dp"
-        android:layout_width="300dp"
-        android:layout_height="200dp"
+        android:layout_width="350dp"
+        android:layout_height="250dp"
         android:layout_centerHorizontal="true">
-        <cn.ucai.fulicenter.SlideAutoLoopView
+        <cn.ucai.fulicenter.view.SlideAutoLoopView
             android:id="@+id/slideAutoLoopView"
             android:layout_width="match_parent"
-            android:layout_height="190dp"/>
+            android:layout_height="200dp"/>
 
-        <cn.ucai.fulicenter.FlowIndicator
+        <cn.ucai.fulicenter.adapter.FlowIndicator
             android:id="@+id/flowIndicator"
             android:layout_below="@+id/slideAutoLoopView"
+            android:layout_marginTop="25dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:r="5dp"
@@ -106,5 +108,5 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="10dp"/>
 </RelativeLayout>

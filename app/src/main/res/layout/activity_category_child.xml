@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/back"
             android:layout_centerVertical="true"/>
-        <cn.ucai.fulicenter.CatChildFilterButton
+        <cn.ucai.fulicenter.adapter.CatChildFilterButton
             android:id="@+id/catChildFilterButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

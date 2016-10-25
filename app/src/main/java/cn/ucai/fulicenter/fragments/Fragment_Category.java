@@ -9,14 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.ucai.fulicenter.ConvertUtils;
-import cn.ucai.fulicenter.L;
-import cn.ucai.fulicenter.NetDao;
+import cn.ucai.fulicenter.utils.ConvertUtils;
+import cn.ucai.fulicenter.utils.L;
+import cn.ucai.fulicenter.net.NetDao;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.adapter.CategoryAdapter;
 import cn.ucai.fulicenter.bean.CategoryChildBean;

@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import cn.ucai.fulicenter.L;
+import cn.ucai.fulicenter.utils.L;
 
 /**
  * Created by Administrator on 2016/10/19 0019.
