@@ -187,8 +187,8 @@ public class GoodsDetailsActivity extends BaseActivity {
         oks.setUrl(detail.getShareUrl());
 
         // comment是我对这条分享的评论，仅在人人网和QQ空间使用
-//        oks.setComment("我是测试评论文本");
-        oks.setComment("福利社是个不错的app，你值得拥有!");
+        oks.setComment("我是测试评论文本");
+//        oks.setComment("福利社是个不错的app，你值得拥有!");
 
         // site是分享此内容的网站名称，仅在QQ空间使用
 //        oks.setSite("ShareSDK");
