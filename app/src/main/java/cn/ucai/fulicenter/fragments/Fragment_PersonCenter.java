@@ -2,6 +2,7 @@ package cn.ucai.fulicenter.fragments;
 
 
 import android.os.Bundle;
+import android.support.annotation.IntegerRes;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +16,17 @@ import butterknife.OnClick;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.activity.MainActivity;
 import cn.ucai.fulicenter.adapter.FuLiCenterApplication;
+import cn.ucai.fulicenter.bean.MessageBean;
+import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.bean.User;
+import cn.ucai.fulicenter.dao.UserDao;
+import cn.ucai.fulicenter.net.FileUtils;
 import cn.ucai.fulicenter.net.ImageLoader;
+import cn.ucai.fulicenter.net.NetDao;
+import cn.ucai.fulicenter.net.OkHttpUtils;
 import cn.ucai.fulicenter.utils.L;
 import cn.ucai.fulicenter.utils.MFGT;
+import cn.ucai.fulicenter.utils.ResultUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +42,10 @@ public class Fragment_PersonCenter extends BaseFragment {
     TextView tvUserName;
     @BindView(R.id.tv_set)
     TextView tvSet;
+    @BindView(R.id.tv_collectsCount)
+    TextView tvCollectsCount;
+    @BindView(R.id.tv_collectsBaoBei)
+    TextView tvCollectsBaoBei;
 
     public Fragment_PersonCenter() {
         // Required empty public constructor
@@ -47,6 +59,15 @@ public class Fragment_PersonCenter extends BaseFragment {
         ButterKnife.bind(this, view);
         mContext = (MainActivity) getActivity();
         super.onCreateView(inflater, container, savedInstanceState);
+        user = FuLiCenterApplication.getUser();
+        L.e(TAG, "user=" + user);
+        if (user == null) {
+            MFGT.gotoLoginActivity(mContext);
+        } else {
+            ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user), mContext, ivAvatar);
+            tvUserName.setText(user.getMuserName());
+        }
+
         return view;
     }
 
@@ -57,13 +78,19 @@ public class Fragment_PersonCenter extends BaseFragment {
 
     @Override
     protected void initData() {
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         user = FuLiCenterApplication.getUser();
-        L.e(TAG, "user=" + user);
-        if (user == null) {
-            MFGT.gotoLoginActivity(mContext);
-        } else {
+        L.e(TAG,"user=" + user);
+        if (user != null) {
             ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user), mContext, ivAvatar);
-            tvUserName.setText(user.getMuserName());
+            tvUserName.setText(user.getMuserNick());
+            syncUserInfo();
+            syncCollectsCount();
         }
     }
 
@@ -73,11 +100,60 @@ public class Fragment_PersonCenter extends BaseFragment {
     }
 
     @OnClick(R.id.tv_set)
-    public void onSet(){
-        if(user!=null){
-            String userName = user.getMuserName();
-            String nick = user.getMuserNick();
-            MFGT.gotoPersonalActivity(mContext,userName,nick);
+    public void onSet() {
+        if (user != null) {
+            MFGT.gotoPersonalActivity(mContext);
         }
+    }
+
+    private void syncUserInfo() {
+        NetDao.syncUserInfo(mContext, user.getMuserName(), new OkHttpUtils.OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                Result result = ResultUtils.getResultFromJson(s, User.class);
+                if (result != null) {
+                    User u = (User) result.getRetData();
+                    if (!user.equals(u)) {
+                        UserDao dao = new UserDao(mContext);
+                        boolean b = dao.saveUser(u);
+                        if (b) {
+                            FuLiCenterApplication.setUser(u);
+                            user = u;
+                            ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user), mContext, ivAvatar);
+                            tvUserName.setText(user.getMuserNick());
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
+    }
+
+    private void syncCollectsCount() {
+        NetDao.getCollectsCount(mContext, user.getMuserName(), new OkHttpUtils.OnCompleteListener<MessageBean>() {
+            @Override
+            public void onSuccess(MessageBean result) {
+                if (result!= null && result.isSuccess()) {
+                    tvCollectsCount.setText(result.getMsg());
+                }else{
+                    tvCollectsCount.setText(""+0);
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
+    }
+
+    @OnClick(R.id.tv_collectsBaoBei)
+    public void onCollectBaoBei(){
+        int count = Integer.parseInt(tvCollectsCount.getText().toString());
+        MFGT.gotoCollectBaoBeiActivity(mContext,count);
     }
 }
