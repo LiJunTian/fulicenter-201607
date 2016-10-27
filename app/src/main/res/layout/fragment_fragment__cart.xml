@@ -7,6 +7,7 @@
     tools:context="cn.ucai.fulicenter.fragments.Fragment_Cart">
 
     <LinearLayout
+        android:id="@+id/ll_cart_sum"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal">
@@ -39,18 +40,20 @@
             android:layout_height="60dp"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/tv_sumPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="￥1118"
+                android:text="￥0"
                 android:gravity="center"
                 android:textColor="@color/orange"/>
             <TextView
+                android:id="@+id/tv_savePrice"
                 android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="￥110"
+                android:text="￥0"
                 android:gravity="center"
                 android:textColor="@color/red"/>
         </LinearLayout>
@@ -69,7 +72,43 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/black2"/>
-    <include
-        layout="@layout/fragment_fragment__new_goods"/>
+    <!--<include
+        layout="@layout/fragment_fragment__new_goods"/>-->
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/srl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="cn.ucai.fulicenter.fragments.Fragment_NewGoods">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_refresh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/now_refresh"
+                android:visibility="gone"
+                android:gravity="center_horizontal"
+                android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/tv_cart_clean"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="购物车空空如也\n\n快去选购吧"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:textColor="@color/google_yellow"
+                android:visibility="gone"/>
+            <!-- TODO: Update blank fragment layout -->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>
