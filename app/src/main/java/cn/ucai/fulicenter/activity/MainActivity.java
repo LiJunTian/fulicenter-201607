@@ -3,7 +3,6 @@ package cn.ucai.fulicenter.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,9 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ucai.fulicenter.adapter.FuLiCenterApplication;
+import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.utils.I;
 import cn.ucai.fulicenter.utils.L;
 import cn.ucai.fulicenter.R;
@@ -82,11 +83,6 @@ public class MainActivity extends AppCompatActivity {
         mFragment_Category = new Fragment_Category();
         mFragment_Cart = new Fragment_Cart();
         mFragment_PersonCenter = new Fragment_PersonCenter();
-        /*getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.main_FragmentLayout,mFragment_newGoods)
-                .show(mFragment_newGoods)
-                .commit();*/
     }
 
     private void addFragment() {
@@ -121,12 +117,16 @@ public class MainActivity extends AppCompatActivity {
                 index = 2;
                 break;
             case R.id.main_rbCart:
-                index = 3;
+                if(FuLiCenterApplication.getUser()==null){
+                    mainRbCart.setChecked(false);
+                    startActivityForResult(new Intent(this,LoginActivity.class),I.REQUEST_CODE_CART);
+                }else{
+                    index = 3;
+                }
                 break;
             case R.id.main_rbPersonalCenter:
                 if(FuLiCenterApplication.getUser()==null){
-                    /*currentIndex = 4;
-                    setRadioButtonStatus(4);*/
+                    mainRbPersonalCenter.setChecked(false);
                     startActivityForResult(new Intent(this,LoginActivity.class),I.REQUEST_CODE_LOGIN);
                 }else{
                     index = 4;
@@ -173,10 +173,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==RESULT_OK&&requestCode==I.REQUEST_CODE_LOGIN){
-            setUserName(data.getStringExtra(I.User.USER_NAME));
-            if(getUserName()!=null){
+            User user = (User) data.getSerializableExtra(I.User.USER_NAME);
+            if(user!=null){
                 index = 4;
                 switchFragment(4);
+            }
+        }
+
+        if(resultCode==RESULT_OK&&requestCode==I.REQUEST_CODE_CART){
+            User user = (User) data.getSerializableExtra(I.User.USER_NAME);
+            if(user!=null){
+                index = 3;
+                switchFragment(3);
             }
         }
     }
