@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    android:id="@+id/boutique"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="150dp">
+    android:layout_height="140dp">
+<RelativeLayout
+    android:id="@+id/boutique"
+    android:layout_width="350dp"
+    android:layout_height="130dp"
+    android:layout_centerInParent="true"
+    android:background="@color/white">
     <ImageView
         android:id="@+id/iv_boutiqueImage"
-        android:layout_width="150dp"
-        android:layout_height="150dp" />
+        android:layout_width="120dp"
+        android:layout_height="130dp" />
     <TextView
         android:id="@+id/tv_boutiqueTitle"
         android:layout_toRightOf="@+id/iv_boutiqueImage"
@@ -35,4 +40,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="快速增长修护预防脱发洗发水让头发健康快速生长更美丽"/>
+</RelativeLayout>
 </RelativeLayout>

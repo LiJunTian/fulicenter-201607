@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -86,7 +85,7 @@ public class CollectAdapter extends RecyclerView.Adapter {
         goodsViewHolder.tvGoodsName.setText(goods.getGoodsName());
         ImageLoader.downloadImg(context, goodsViewHolder.ivGoodsAvatar, goods.getGoodsThumb(), true);
 //        goodsViewHolder.ivDelete.setImageResource(R.mipmap.delete);
-        goodsViewHolder.goodsLayout.setTag(goods);
+        goodsViewHolder.collectItem.setTag(goods);
 
     }
 
@@ -121,10 +120,11 @@ public class CollectAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-    public void clearData(int i){
+    public void clearData(int i) {
         this.goodsList.remove(i);
         notifyDataSetChanged();
     }
+
     class GoodsViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_delete)
         ImageView ivDelete;
@@ -132,37 +132,38 @@ public class CollectAdapter extends RecyclerView.Adapter {
         ImageView ivGoodsAvatar;
         @BindView(R.id.tvGoodsName)
         TextView tvGoodsName;
-        @BindView(R.id.goods_layout)
-        RelativeLayout goodsLayout;
+        @BindView(R.id.collect_item)
+        RelativeLayout collectItem;
+
         GoodsViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
 
-        @OnClick(R.id.goods_layout)
+        @OnClick(R.id.collect_item)
         public void onGoodsItemClick() {
-            CollectBean collect = (CollectBean) goodsLayout.getTag();
-            MFGT.gotoGoodsDetailActivity(context, collect.getGoodsId());
+            CollectBean collect = (CollectBean) collectItem.getTag();
+            MFGT.gotoGoodsDetailActivity(context,collect.getGoodsId());
         }
 
         @OnClick(R.id.iv_delete)
-        public void delete(){
-            final CollectBean collect = (CollectBean) goodsLayout.getTag();
-            NetDao.deleteCollect(context,collect.getGoodsId(),user.getMuserName(), new OkHttpUtils.OnCompleteListener<MessageBean>() {
+        public void delete() {
+            final CollectBean collect = (CollectBean) collectItem.getTag();
+            NetDao.deleteCollect(context, collect.getGoodsId(), user.getMuserName(), new OkHttpUtils.OnCompleteListener<MessageBean>() {
                 @Override
                 public void onSuccess(MessageBean result) {
-                    if(result!=null&&result.isSuccess()){
+                    if (result != null && result.isSuccess()) {
                         goodsList.remove(collect);
                         notifyDataSetChanged();
                         CommonUtils.showLongToast("商品删除成功");
-                    }else{
-                        CommonUtils.showLongToast(result!=null?result.getMsg():"删除失败");
+                    } else {
+                        CommonUtils.showLongToast(result != null ? result.getMsg() : "删除失败");
                     }
                 }
 
                 @Override
                 public void onError(String error) {
-                    L.e("error="+error);
+                    L.e("error=" + error);
                     CommonUtils.showLongToast("删除失败");
                 }
             });

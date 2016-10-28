@@ -6,7 +6,7 @@
 
 <RelativeLayout
    android:layout_centerInParent="true"
-    android:id="@+id/goods_layout"
+    android:id="@+id/collect_item"
     android:layout_width="170dp"
     android:layout_height="200dp"
     android:background="@color/white">

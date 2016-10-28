@@ -4,12 +4,12 @@
     android:layout_height="90dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 <LinearLayout
+    android:id="@+id/ll_cart_item"
     android:layout_centerVertical="true"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:background="@color/white">
-
     <CheckBox
         android:id="@+id/checkbox"
         android:layout_marginLeft="10dp"
@@ -52,7 +52,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="(2)"
+                android:text="(0)"
                 android:gravity="center"/>
             <ImageView
                 android:id="@+id/iv_cart_del"
@@ -70,7 +70,7 @@
         android:id="@+id/tv_cart_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="￥419"
+        android:text="￥0"
         android:layout_marginRight="10dp"
         android:textColor="@color/main_orange"
         android:layout_gravity="center_vertical"/>

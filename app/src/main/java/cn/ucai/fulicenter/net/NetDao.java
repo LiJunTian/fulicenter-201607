@@ -1,6 +1,7 @@
 package cn.ucai.fulicenter.net;
 
 import android.content.Context;
+import android.content.DialogInterface;
 
 import java.io.File;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -16,6 +17,7 @@ import cn.ucai.fulicenter.bean.NewGoodsBean;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.net.OkHttpUtils;
+import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.I;
 import cn.ucai.fulicenter.utils.L;
 import cn.ucai.fulicenter.utils.MD5;
@@ -245,6 +247,19 @@ public class NetDao {
     }
 
     /**
+     * 查询用户的购物车（用string来解析)
+     * @param context 上下文
+     * @param userName 用户名
+     * @param listener 监听
+     */
+    public static void findCart(Context context, String userName, OkHttpUtils.OnCompleteListener<String> listener){
+        OkHttpUtils<String> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_CARTS)
+                .addParam(I.Collect.USER_NAME,userName)
+                .targetClass(String.class)
+                .execute(listener);
+    }
+    /**
      * 响应客户端添加商品至购物车的请求
      * @param context
      * @param goodsId
@@ -260,6 +275,30 @@ public class NetDao {
                 .addParam(I.Cart.USER_NAME,userName)
                 .addParam(I.Cart.COUNT,""+count)
                 .addParam(I.Cart.IS_CHECKED,""+isChecked)
+                .targetClass(MessageBean.class)
+                .execute(listener);
+    }
+
+    /**
+     * 删除购物车中的商品
+     * @param context
+     * @param id
+     * @param listener
+     */
+    public static void deleteCart(Context context, int id, OkHttpUtils.OnCompleteListener<MessageBean> listener){
+        OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_DELETE_CART)
+                .addParam(I.Cart.ID,""+id)
+                .targetClass(MessageBean.class)
+                .execute(listener);
+    }
+
+    public static void updateCart(Context context, int cartId, int count, OkHttpUtils.OnCompleteListener<MessageBean> listener){
+        OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_UPDATE_CART)
+                .addParam(I.Cart.ID,""+cartId)
+                .addParam(I.Cart.COUNT,""+count)
+                .addParam(I.Cart.IS_CHECKED,""+0)
                 .targetClass(MessageBean.class)
                 .execute(listener);
     }

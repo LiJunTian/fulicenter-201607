@@ -115,4 +115,5 @@ dependencies {
     compile files('lib/ShareSDK-Yixin-Core-2.7.7.jar')
     compile files('lib/ShareSDK-Yixin-Moments-2.7.7.jar')
     compile files('lib/ShareSDK-YouDao-2.7.7.jar')
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
 }

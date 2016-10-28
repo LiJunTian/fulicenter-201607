@@ -3,16 +3,19 @@ package cn.ucai.fulicenter.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.INotificationSideChannel;
 
 import java.util.ArrayList;
 
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.activity.BoutiqueDetailActivity;
 import cn.ucai.fulicenter.activity.CategoryChildActivity;
+import cn.ucai.fulicenter.activity.CollectBaoBeiActivity;
 import cn.ucai.fulicenter.activity.GoodsDetailsActivity;
 import cn.ucai.fulicenter.activity.LoginActivity;
 import cn.ucai.fulicenter.activity.MainActivity;
 import cn.ucai.fulicenter.activity.PersonalActivity;
+import cn.ucai.fulicenter.activity.RevisePersonalActivity;
 import cn.ucai.fulicenter.bean.CategoryChildBean;
 import cn.ucai.fulicenter.utils.I;
 
@@ -68,11 +71,16 @@ public class MFGT {//从哪来到哪去move from go to
         startActivity(context,intent);
     }
 
-    public static void gotoPersonalActivity(Context context,String userName,String nick){
+    public static void gotoPersonalActivity(Context context){
         Intent intent = new Intent();
         intent.setClass(context, PersonalActivity.class);
-        intent.putExtra(I.User.USER_NAME,userName);
-        intent.putExtra(I.User.NICK,nick);
+        startActivity(context,intent);
+    }
+
+    public static void gotoCollectBaoBeiActivity(Context context,int CollectCount){
+        Intent intent = new Intent();
+        intent.setClass(context, CollectBaoBeiActivity.class);
+        intent.putExtra(I.Collect.COUNT,""+CollectCount);
         startActivity(context,intent);
     }
 }

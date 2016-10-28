@@ -4,6 +4,10 @@ package cn.ucai.fulicenter.bean;
  * Created by Administrator on 2016/10/24 0024.
  */
 
+import java.io.Serializable;
+
+import cn.ucai.fulicenter.utils.I;
+
 /**
  * "muserName":"a952702",
   "muserNick":"彭鹏",
@@ -13,7 +17,7 @@ package cn.ucai.fulicenter.bean;
   "mavatarType":0,
   "mavatarLastUpdateTime":"1476285149669"
  */
-public class User {
+public class User implements Serializable{
     private String muserName;
     private String muserNick;
     private int mavatarId;
@@ -55,7 +59,7 @@ public class User {
     }
 
     public String getMavatarSuffix() {
-        return mavatarSuffix;
+        return mavatarSuffix!=null?mavatarSuffix:I.AVATAR_SUFFIX_JPG;
     }
 
     public void setMavatarSuffix(String mavatarSuffix) {
@@ -89,5 +93,24 @@ public class User {
                 ", mavatarType=" + mavatarType +
                 ", mavatarLastUpdateTime='" + mavatarLastUpdateTime + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (!muserName.equals(user.muserName)) return false;
+        return mavatarLastUpdateTime.equals(user.mavatarLastUpdateTime);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = muserName.hashCode();
+        result = 31 * result + mavatarLastUpdateTime.hashCode();
+        return result;
     }
 }

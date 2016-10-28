@@ -15,6 +15,9 @@ public interface I {
 
     int REQUEST_CODE_REGISTER = 101;
     int REQUEST_CODE_LOGIN = 102;
+    int REQUEST_CODE_UPDATE_NICK = 103;
+    int REQUEST_CODE_CART = 104;
+    String ACTION_CART_IS_CLEAN = "cart_clean" ;
     /** 表示列表项布局的两种类型*/
     int TYPE_ITEM=0;
     int TYPE_FOOTER=1;
@@ -51,6 +54,8 @@ public interface I {
     int NEW_GOOD=0;
     int CATEGORY_GOOD=1;
     int CAT_ID=0;
+    String BROADCAST_UPDATE_CART = "cn.ucai.fulicenter.updateCart";
+    String ACTION_UPDATE_CART = "update_cart";
 
     interface Goods {
         String KEY_RESULT = "result";
@@ -219,6 +224,7 @@ public interface I {
         String GOODS_THUMB="goodsThumb";
         String GOODS_IMG="goodsImg";
         String ADD_TIME="addTime";
+        String COUNT = "count";
     }
 
     interface User {

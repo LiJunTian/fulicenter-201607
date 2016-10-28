@@ -82,6 +82,7 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         goodsViewHolder.tvGoodsPrice.setText(goods.getCurrencyPrice());
         ImageLoader.downloadImg(context,goodsViewHolder.ivGoodsAvatar,goods.getGoodsThumb(),true);
         goodsViewHolder.goodsLayout.setTag(goods.getGoodsId());
+//        goodsViewHolder.goodsLayout.setTag(goods);
     }
 
     public int getText(){
@@ -131,6 +132,7 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         @OnClick(R.id.goods_layout)
         public void onGoodsItemClick(){
             int goodsId = (int) goodsLayout.getTag();
+//            NewGoodsBean bean = (NewGoodsBean) goodsLayout.getTag();
             MFGT.gotoGoodsDetailActivity(context,goodsId);
         }
     }

@@ -69,18 +69,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        /*SharedPreferences sp = getSharedPreferences("login", MODE_PRIVATE);
-        String name = sp.getString("userName","");
-        String pw = sp.getString("password","");
-        L.e(TAG,"name="+name);
-        L.e(TAG,"pw="+pw);*/
-//        evLoginUserName.setText("name");
-        /*if(name!=null&&!"".equals(name)){
-            evLoginUserName.setText(name);
-        }
-        if(pw!=null&&!"".equals(pw)){
-            etLoginRePassword.setText(pw);
-        }*/
+
     }
 
     @Override
@@ -90,7 +79,6 @@ public class LoginActivity extends BaseActivity {
 
     @OnClick(R.id.btn_register)
     public void onClick() {
-//        MFGT.gotoRegisterActivity(this);
         startActivityForResult(new Intent(this, RegisterActivity.class), I.REQUEST_CODE_REGISTER);
     }
 
@@ -136,18 +124,10 @@ public class LoginActivity extends BaseActivity {
                         if (isSuccess) {
                             SharePrefrenceUtils.getInstance(mContext).saveUser(user.getMuserName());
                             FuLiCenterApplication.setUser(user);
-                            setResult(RESULT_OK, new Intent().putExtra(I.User.USER_NAME,userName));
+//                            setResult(RESULT_OK, new Intent().putExtra(I.User.USER_NAME,userName));
+                            setResult(RESULT_OK, new Intent().putExtra(I.User.USER_NAME,user));
                             MFGT.finish((Activity) mContext);
                         }
-//                        setResult(RESULT_OK,new Intent().putExtra(I.User.USER_NAME,userName));
-                        /*SharedPreferences sp = getSharedPreferences("login", MODE_PRIVATE);
-                        SharedPreferences.Editor edit = sp.edit();
-                        edit.putString("userName",userName);
-                        edit.putString("password",password);
-                        edit.commit();*/
-//                        MFGT.finish((Activity) mContext);
-//                        CommonUtils.showLongToast("登录成功");
-//                        MFGT.gotoPersonCenter(mContext,userName);
                     } else if (result.getRetCode() == I.MSG_LOGIN_UNKNOW_USER) {
                         CommonUtils.showLongToast(R.string.user_not_exist);
                     } else {
@@ -155,9 +135,6 @@ public class LoginActivity extends BaseActivity {
                     }
                 }
                 pd.dismiss();
-               /* if (result.getRetCode() == 0) {
-                    MFGT.gotoPersonCenter(mContext,userName);
-                }*/
             }
 
             @Override

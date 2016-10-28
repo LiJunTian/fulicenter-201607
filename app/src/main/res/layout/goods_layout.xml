@@ -1,29 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/goods_layout"
+    android:layout_width="180dp"
+    android:layout_height="210dp">
+
+<RelativeLayout
+android:layout_centerInParent="true"
+android:id="@+id/goods_layout"
+android:layout_width="170dp"
+android:layout_height="200dp"
+    android:background="@color/white">
+    
+<ImageView
+    android:layout_marginTop="10dp"
+    android:id="@+id/ivGoodsAvatar"
+    android:layout_width="130dp"
+    android:layout_height="130dp"
+    android:layout_centerHorizontal="true"/>
+<TextView
+    android:id="@+id/tvGoodsName"
+    android:layout_below="@+id/ivGoodsAvatar"
     android:layout_width="match_parent"
-    android:layout_height="220dp">
-    <ImageView
-        android:id="@+id/ivGoodsAvatar"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_centerHorizontal="true"/>
-    <TextView
-        android:id="@+id/tvGoodsName"
-        android:layout_below="@+id/ivGoodsAvatar"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:text="双层分隔饭盒,绿色"
-        android:gravity="center"
-        android:layout_marginTop="10dp" />
-    <TextView
-        android:id="@+id/tvGoodsPrice"
-        android:layout_below="@+id/tvGoodsName"
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:gravity="center"
-        android:text="￥220"
-        android:textColor="#fd000d" />
+    android:layout_height="20dp"
+    android:text="双层分隔饭盒,绿色"
+    android:gravity="center"
+    android:layout_marginTop="10dp" />
+<TextView
+    android:id="@+id/tvGoodsPrice"
+    android:layout_below="@+id/tvGoodsName"
+    android:layout_marginTop="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="20dp"
+    android:gravity="center"
+    android:text="￥220"
+    android:textColor="#fd000d" />
+</RelativeLayout>
+
 </RelativeLayout>
