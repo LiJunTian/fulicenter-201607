@@ -302,7 +302,7 @@ public class GoodsDetailsActivity extends BaseActivity {
                 @Override
                 public void onSuccess(MessageBean result) {
                     if(result!=null&&result.isSuccess()){
-                        CommonUtils.showLongToast("添加到购物车成功");
+                        CommonUtils.showShortToast("添加到购物车成功");
                         mContext.sendBroadcast(new Intent(I.BROADCAST_UPDATE_CART).putExtra(I.ACTION_UPDATE_CART,true));
                     }
                 }

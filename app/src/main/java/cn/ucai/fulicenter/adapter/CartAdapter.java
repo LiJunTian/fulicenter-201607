@@ -65,12 +65,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ItemViewHolder
             ImageLoader.downloadImg(context, holder.ivCartImg, goods.getGoodsThumb());
             holder.tvCartGoodName.setText(goods.getGoodsName());
             holder.tvCartPrice.setText(goods.getCurrencyPrice());
-            holder.llCartItem.setOnClickListener(new View.OnClickListener() {
+            holder.llCartItem.setTag(goods);
+           /* holder.llCartItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     MFGT.gotoGoodsDetailActivity(context, goods.getGoodsId());
                 }
-            });
+            });*/
         }
         int CartCount = cartBean.getCount();
         holder.tvCartCount.setText("(" + CartCount + ")");
@@ -112,6 +113,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ItemViewHolder
         ItemViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+        }
+
+        @OnClick({R.id.iv_cart_img,R.id.tv_cart_goodName,R.id.tv_cart_price})
+        public void gotoDetail(){
+            GoodsDetailsBean details = (GoodsDetailsBean) llCartItem.getTag();
+            MFGT.gotoGoodsDetailActivity(context, details.getGoodsId());
         }
 
         @OnClick(R.id.iv_cart_add)
@@ -162,7 +169,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ItemViewHolder
                     public void onSuccess(MessageBean result) {
                         if (result != null && result.isSuccess()) {
                             if(list.size()==1){
-                                context.sendBroadcast(new Intent(I.BROADCAST_UPDATE_CART).putExtra(I.ACTION_CART_IS_CLEAN, false));
+                                context.sendBroadcast(new Intent(I.BROADCAST_UPDATE_CART).putExtra(I.ACTION_CART_IS_CLEAN, true));
                             }
                             list.remove(position);
                             notifyDataSetChanged();
