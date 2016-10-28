@@ -188,7 +188,9 @@ public class Fragment_Cart extends BaseFragment {
             sumPrice();
             boolean isClean = intent.getBooleanExtra(I.ACTION_CART_IS_CLEAN, false);
             L.e("broadcast","isClean="+isClean);
-            setCartLayout(isClean);
+            if(isClean){
+                setCartLayout(false);
+            }
             boolean isUpdate = intent.getBooleanExtra(I.ACTION_UPDATE_CART,false);
             if(isUpdate){
                 initData();
