@@ -6,20 +6,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.io.File;
 
@@ -43,6 +36,7 @@ import cn.ucai.fulicenter.utils.OnSetAvatarListener;
 import cn.ucai.fulicenter.utils.ResultUtils;
 
 public class PersonalActivity extends BaseActivity {
+    final String TAG = PersonalActivity.class.getSimpleName();
     Context mContext;
     User user;
     OnSetAvatarListener osal;
@@ -65,11 +59,6 @@ public class PersonalActivity extends BaseActivity {
     ImageView ivPersonalQrcode;
     @BindView(R.id.ll_avatar_layout_set)
     LinearLayout llAvatarLayoutSet;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
 
     @Override
@@ -78,9 +67,6 @@ public class PersonalActivity extends BaseActivity {
         ButterKnife.bind(this);
         mContext = this;
         super.onCreate(savedInstanceState);
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -152,16 +138,12 @@ public class PersonalActivity extends BaseActivity {
                 Result result = ResultUtils.getResultFromJson(s, User.class);
                 if (result != null) {
                     if (result.isRetMsg()) {
-//                        L.e(TAG,"result="+result);
                         User user = (User) result.getRetData();
-//                        L.e(TAG,"user="+user);
                         UserDao dao = new UserDao(mContext);
                         boolean isSuccess = dao.updateUser(user);
                         if (isSuccess) {
                             FuLiCenterApplication.setUser(user);
                             initData();
-//                            setResult(RESULT_OK);
-//                            MFGT.finish((Activity) mContext);
                         }
                         CommonUtils.showLongToast("昵称更新成功");
                     } else if (result.getRetCode() == I.MSG_USER_SAME_NICK) {
@@ -182,31 +164,26 @@ public class PersonalActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if(resultCode==RESULT_OK&&requestCode == I.REQUEST_CODE_UPDATE_NICK){
         if (resultCode != RESULT_OK) {
             return;
         }
-        /*if (requestCode == I.REQUEST_CODE_UPDATE_NICK) {
-            initData();
-        }*/
         osal.setAvatar(requestCode, data, ivPersonalAvatar);
         if (requestCode == OnSetAvatarListener.REQUEST_CROP_PHOTO) {
             updateAvatar();
         }
-//        }
     }
 
     private void updateAvatar() {
         File file = new File(OnSetAvatarListener.getAvatarFile((Activity) mContext, user.getMavatarPath() + "/" + user.getMuserName()) + I.AVATAR_SUFFIX_JPG);
-        L.e("file=" + file.exists());
-        L.e("file=" + file.getAbsolutePath());
+        L.e(TAG,"file=" + file.exists());
+        L.e(TAG,"file=" + file.getAbsolutePath());
         final ProgressDialog pd = new ProgressDialog(mContext);
         pd.setMessage("用户头像更新中...");
         pd.show();
         NetDao.updateAvatar(mContext, user.getMuserName(), file, new OkHttpUtils.OnCompleteListener<String>() {
             @Override
             public void onSuccess(String s) {
-                L.e("s=" + s);
+                L.e(TAG,"s=" + s);
                 Result result = ResultUtils.getResultFromJson(s, User.class);
                 if (result == null) {
                     CommonUtils.showLongToast("头像更新失败");
@@ -227,7 +204,7 @@ public class PersonalActivity extends BaseActivity {
             public void onError(String error) {
                 pd.dismiss();
                 CommonUtils.showLongToast("头像更新失败");
-                L.e("error=" + error);
+                L.e(TAG,"error=" + error);
             }
         });
     }
@@ -246,6 +223,4 @@ public class PersonalActivity extends BaseActivity {
         }
         finish();
     }
-
-
 }
