@@ -6,11 +6,13 @@
     <RelativeLayout
         android:id="@+id/login_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="50dp"
+        android:background="@color/white">
         <ImageView
             android:id="@+id/title_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
             android:src="@drawable/back"/>
         <TextView
             android:layout_width="wrap_content"
@@ -23,9 +25,10 @@
         android:layout_below="@+id/login_title"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
-        android:layout_width="340dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="@color/white">
         <EditText
             android:id="@+id/ev_login_userName"
             android:layout_width="0dp"
@@ -35,20 +38,22 @@
             android:hint="用户"
             android:text=""
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical" />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_account"/>
+            android:src="@drawable/icon_account"
+            android:layout_gravity="center_vertical"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/login_password"
         android:layout_below="@+id/login_userName"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
-        android:layout_width="340dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="@color/white">
         <EditText
             android:id="@+id/et_login_rePassword"
             android:layout_width="0dp"
@@ -61,7 +66,8 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_pwd"/>
+            android:src="@drawable/icon_pwd"
+            android:layout_gravity="center_vertical"/>
     </LinearLayout>
     <Button
         android:id="@+id/btn_login"
@@ -82,5 +88,5 @@
         android:layout_height="wrap_content"
         android:text="注册"
         android:textColor="#fdd001"
-        android:background="@color/btn_register_normal"/>
+        android:background="@color/white"/>
 </RelativeLayout>

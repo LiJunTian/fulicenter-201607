@@ -44,8 +44,6 @@ public class MainActivity extends AppCompatActivity {
     RadioButton mainRbCategory;
     @BindView(R.id.main_rbCart)
     RadioButton mainRbCart;
-    @BindView(R.id.main_tvCount)
-    TextView mainTvCount;
     @BindView(R.id.main_rbPersonalCenter)
     RadioButton mainRbPersonalCenter;
     @BindView(R.id.main_RadioGroup)

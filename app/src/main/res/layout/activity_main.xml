@@ -10,13 +10,12 @@
         android:id="@+id/main_FragmentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/main_xiantiao"
-        />
+        android:layout_above="@+id/main_xiantiao" />
     <View
         style="@style/style_divide_line"
         android:id="@+id/main_xiantiao"
-        android:layout_above="@+id/main_RadioGroup"
-        />
+        android:layout_marginBottom="5dp"
+        android:layout_above="@+id/main_RadioGroup" />
     <LinearLayout
         android:id="@+id/main_RadioGroup"
         android:layout_alignParentBottom="true"
@@ -58,35 +57,18 @@
             android:textColor="@color/main_botton_text_color"
             android:button="@null"
             android:gravity="center"
-            android:onClick="onCheckedChange"
-            />
-        <RelativeLayout
-            android:id="@+id/main_rbRL"
+            android:onClick="onCheckedChange" />
+        <RadioButton
+            android:id="@+id/main_rbCart"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content">
-                <RadioButton
-                    android:id="@+id/main_rbCart"
-                    android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableTop="@drawable/selector_menu_item_cart"
-                    android:text="购物车"
-                    android:textColor="@color/main_botton_text_color"
-                    android:button="@null"
-                    android:onClick="onCheckedChange"/>
-                <TextView
-                    android:id="@+id/main_tvCount"
-                    android:layout_alignParentRight="true"
-                    android:layout_width="21dp"
-                    android:layout_height="14dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginBottom="1dp"
-                    android:gravity="center"
-                    android:text="45"
-                    android:textSize="12dp"
-                    android:background="@drawable/cart_hint"/>
-        </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/selector_menu_item_cart"
+            android:text="购物车"
+            android:gravity="center_horizontal"
+            android:textColor="@color/main_botton_text_color"
+            android:button="@null"
+            android:onClick="onCheckedChange"/>
 
         <RadioButton
             android:id="@+id/main_rbPersonalCenter"

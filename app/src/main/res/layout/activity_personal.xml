@@ -26,10 +26,11 @@
     </RelativeLayout>
 
         <LinearLayout
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal"
-            android:background="@color/bg_gray_light">
+            android:background="@color/white">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -42,10 +43,10 @@
                 android:layout_height="wrap_content"/>
             <ImageView
                 android:id="@+id/iv_personal_avatar"
-                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/contactlogo"/>
+                android:src="@drawable/contactlogo" />
             <ImageView
                 android:id="@+id/iv_personal_setAvatar"
                 android:layout_width="wrap_content"
@@ -55,10 +56,11 @@
                 android:layout_marginRight="10dp"/>
         </LinearLayout>
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
-        android:background="@color/bg_gray_light">
+        android:background="@color/white">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -86,10 +88,11 @@
             android:layout_marginRight="10dp"/>
     </LinearLayout>
         <LinearLayout
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal"
-            android:background="@color/bg_gray_light">
+            android:background="@color/white">
             <TextView
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
@@ -116,10 +119,11 @@
                 android:layout_marginRight="10dp"/>
         </LinearLayout>
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
-        android:background="@color/bg_gray_light">
+        android:background="@color/white">
         <TextView
             android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
@@ -132,9 +136,11 @@
             android:layout_height="wrap_content"/>
         <ImageView
             android:id="@+id/iv_personal_qrcode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/tb_icon_home_qrcode_normal"/>
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/qrcode"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

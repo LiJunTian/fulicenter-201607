@@ -51,12 +51,12 @@
                     android:text="a"
                     android:textSize="20dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="20dp"/>
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:src="@drawable/tb_icon_home_qrcode_normal"
+                    android:src="@drawable/qrcode"
                     android:layout_gravity="center_vertical"/>
             </LinearLayout>
 

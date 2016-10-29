@@ -6,12 +6,13 @@
     <RelativeLayout
         android:id="@+id/register_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="#fff">
         <ImageView
             android:id="@+id/register_title_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
             android:src="@drawable/back"/>
         <TextView
             android:layout_width="wrap_content"
@@ -28,7 +29,7 @@
         android:orientation="vertical">
         <LinearLayout
             android:id="@+id/register_userName"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal"
@@ -55,7 +56,7 @@
         <LinearLayout
             android:id="@+id/register_nick"
             android:layout_marginTop="10dp"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal"
@@ -80,7 +81,7 @@
         </LinearLayout>
         <LinearLayout
             android:id="@+id/register_password"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:layout_gravity="center_horizontal"
@@ -106,7 +107,7 @@
         </LinearLayout>
         <LinearLayout
             android:id="@+id/register_rePassword"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:layout_gravity="center_horizontal"
@@ -140,5 +141,5 @@
         android:layout_height="wrap_content"
         android:text="免费注册"
         android:textColor="#fff"
-        android:background="#fd4601"/>
+        android:background="@color/main_orange"/>
 </RelativeLayout>
