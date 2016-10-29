@@ -113,7 +113,7 @@ public class Fragment_Cart extends BaseFragment {
             NetDao.findCart(mContext, user.getMuserName(), new OkHttpUtils.OnCompleteListener<String>() {
                 @Override
                 public void onSuccess(String s) {
-                    L.e("cart", "s=" + s);
+                    L.e(TAG, "s=" + s);
                     cartBeanList = ResultUtils.getCartFromJson(s);
                     srl.setRefreshing(false);
                     tvRefresh.setVisibility(View.GONE);
@@ -192,13 +192,19 @@ public class Fragment_Cart extends BaseFragment {
         return p;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
+    }
+
     class updateCartReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            L.e("broadcast", "收到广播啦...");
+            L.e(TAG, "收到广播啦...");
             sumPrice();
             boolean isClean = intent.getBooleanExtra(I.ACTION_CART_IS_CLEAN, false);
-            L.e("broadcast", "isClean=" + isClean);
+            L.e(TAG,"isClean=" + isClean);
             if (isClean) {
                 setCartLayout(false);
             }
@@ -208,7 +214,7 @@ public class Fragment_Cart extends BaseFragment {
                 initData();
             }
 
-            boolean isPaySuccess = intent.getBooleanExtra(I.PAY_SUCCESS,false);
+            /*boolean isPaySuccess = intent.getBooleanExtra(I.PAY_SUCCESS,false);
             if(isPaySuccess){
                String[] ids = cartIds.split(",");
                 for(String id : ids){
@@ -227,7 +233,7 @@ public class Fragment_Cart extends BaseFragment {
                         }
                     });
                 }
-            }
+            }*/
         }
     }
 
