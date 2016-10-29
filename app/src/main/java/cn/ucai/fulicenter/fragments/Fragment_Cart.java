@@ -20,21 +20,26 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.adapter.CartAdapter;
 import cn.ucai.fulicenter.adapter.FuLiCenterApplication;
 import cn.ucai.fulicenter.bean.CartBean;
+import cn.ucai.fulicenter.bean.MessageBean;
 import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.net.NetDao;
 import cn.ucai.fulicenter.net.OkHttpUtils;
+import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.I;
 import cn.ucai.fulicenter.utils.L;
+import cn.ucai.fulicenter.utils.MFGT;
 import cn.ucai.fulicenter.utils.ResultUtils;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class Fragment_Cart extends BaseFragment {
+    private final String TAG = Fragment_Cart.class.getSimpleName();
     updateCartReceiver receiver;
     Context mContext;
     CartAdapter cartAdapter;
@@ -55,7 +60,10 @@ public class Fragment_Cart extends BaseFragment {
     LinearLayout llCartSum;
     @BindView(R.id.tv_cart_clean)
     TextView tvCartClean;
+    @BindView(R.id.tv_cart_buy)
+    TextView tvCartBuy;
 
+    String cartIds = "";
     public Fragment_Cart() {
         // Required empty public constructor
     }
@@ -93,9 +101,9 @@ public class Fragment_Cart extends BaseFragment {
     }
 
     private void setCartLayout(boolean hasCart) {
-        llCartSum.setVisibility(hasCart?View.VISIBLE:View.GONE);
-        tvCartClean.setVisibility(hasCart?View.GONE: View.VISIBLE);
-        recyclerView.setVisibility(hasCart?View.VISIBLE:View.GONE);
+        llCartSum.setVisibility(hasCart ? View.VISIBLE : View.GONE);
+        tvCartClean.setVisibility(hasCart ? View.GONE : View.VISIBLE);
+        recyclerView.setVisibility(hasCart ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -112,7 +120,7 @@ public class Fragment_Cart extends BaseFragment {
                     if (cartBeanList != null && cartBeanList.size() > 0) {
                         cartAdapter.initData(cartBeanList);
                         setCartLayout(true);
-                    }else{
+                    } else {
                         setCartLayout(false);
                     }
                 }
@@ -160,9 +168,12 @@ public class Fragment_Cart extends BaseFragment {
     private void sumPrice() {
         int sumPrice = 0;
         int rankPrice = 0;
+        cartIds = "";
         if (cartBeanList != null && cartBeanList.size() > 0) {
             for (CartBean c : cartBeanList) {
                 if (c.isChecked()) {
+                    cartIds += c.getId()+",";
+                    L.e(TAG,"cartIds="+cartIds);
                     sumPrice += getPrice(c.getGoods().getCurrencyPrice()) * c.getCount();
                     rankPrice += getPrice(c.getGoods().getRankPrice()) * c.getCount();
                 }
@@ -187,13 +198,35 @@ public class Fragment_Cart extends BaseFragment {
             L.e("broadcast", "收到广播啦...");
             sumPrice();
             boolean isClean = intent.getBooleanExtra(I.ACTION_CART_IS_CLEAN, false);
-            L.e("broadcast","isClean="+isClean);
-            if(isClean){
+            L.e("broadcast", "isClean=" + isClean);
+            if (isClean) {
                 setCartLayout(false);
             }
-            boolean isUpdate = intent.getBooleanExtra(I.ACTION_UPDATE_CART,false);
-            if(isUpdate){
+
+            boolean isUpdate = intent.getBooleanExtra(I.ACTION_UPDATE_CART, false);
+            if (isUpdate) {
                 initData();
+            }
+
+            boolean isPaySuccess = intent.getBooleanExtra(I.PAY_SUCCESS,false);
+            if(isPaySuccess){
+               String[] ids = cartIds.split(",");
+                for(String id : ids){
+                    int goodId = Integer.parseInt(id);
+                    NetDao.deleteCart(context, goodId, new OkHttpUtils.OnCompleteListener<MessageBean>() {
+                        @Override
+                        public void onSuccess(MessageBean result) {
+                            if (result != null && result.isSuccess()) {
+                                initData();
+                            }
+                        }
+
+                        @Override
+                        public void onError(String error) {
+
+                        }
+                    });
+                }
             }
         }
     }
@@ -203,6 +236,15 @@ public class Fragment_Cart extends BaseFragment {
         super.onDestroy();
         if (receiver != null) {
             unregisterForContextMenu(recyclerView);
+        }
+    }
+
+    @OnClick(R.id.tv_cart_buy)
+    public void OnBuy(){
+        if(cartIds!=null&&cartIds.length()>0){
+            MFGT.gotoPayActivity(mContext,cartIds);
+        }else{
+            CommonUtils.showLongToast("还没添加商品呢");
         }
     }
 }
