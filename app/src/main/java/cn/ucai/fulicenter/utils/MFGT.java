@@ -3,7 +3,6 @@ package cn.ucai.fulicenter.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.INotificationSideChannel;
 
 import java.util.ArrayList;
 
@@ -14,12 +13,11 @@ import cn.ucai.fulicenter.activity.CollectBaoBeiActivity;
 import cn.ucai.fulicenter.activity.GoodsDetailsActivity;
 import cn.ucai.fulicenter.activity.LoginActivity;
 import cn.ucai.fulicenter.activity.MainActivity;
+import cn.ucai.fulicenter.activity.PayActivity;
 import cn.ucai.fulicenter.activity.PersonalActivity;
-import cn.ucai.fulicenter.activity.RevisePersonalActivity;
 import cn.ucai.fulicenter.bean.CategoryChildBean;
-import cn.ucai.fulicenter.utils.I;
 
-/**
+/** Activity跳转方法
  * Created by Administrator on 2016/10/14 0014.
  */
 public class MFGT {//从哪来到哪去move from go to
@@ -81,6 +79,13 @@ public class MFGT {//从哪来到哪去move from go to
         Intent intent = new Intent();
         intent.setClass(context, CollectBaoBeiActivity.class);
         intent.putExtra(I.Collect.COUNT,""+CollectCount);
+        startActivity(context,intent);
+    }
+
+    public static void gotoPayActivity(Context context,String cartIds){
+        Intent intent = new Intent();
+        intent.setClass(context,PayActivity.class);
+        intent.putExtra(I.Cart.ID,cartIds);
         startActivity(context,intent);
     }
 }
