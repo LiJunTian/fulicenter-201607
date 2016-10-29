@@ -56,6 +56,7 @@ public interface I {
     int CAT_ID=0;
     String BROADCAST_UPDATE_CART = "cn.ucai.fulicenter.updateCart";
     String ACTION_UPDATE_CART = "update_cart";
+    String PAY_SUCCESS = "pay_success";
 
     interface Goods {
         String KEY_RESULT = "result";

@@ -35,16 +35,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/bg_cart_selected" />
-            <TextView
-                android:id="@+id/tvCollectCount"
-                android:layout_alignParentRight="true"
-                android:layout_width="18dp"
-                android:layout_height="12dp"
-                android:gravity="center"
-                android:text="0"
-                android:textSize="12dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/cart_hint"/>
         </RelativeLayout>
         <ImageView
             android:id="@+id/iv_title_boutique"

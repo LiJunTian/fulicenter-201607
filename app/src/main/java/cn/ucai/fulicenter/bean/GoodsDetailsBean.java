@@ -3,7 +3,7 @@ package cn.ucai.fulicenter.bean;
 import java.util.Arrays;
 import java.util.List;
 
-/**
+/**GoodsDetailsBean类
  * Created by Administrator on 2016/10/13 0013.
  */
 public class GoodsDetailsBean {
