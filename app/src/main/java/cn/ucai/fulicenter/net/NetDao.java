@@ -1,10 +1,8 @@
 package cn.ucai.fulicenter.net;
 
 import android.content.Context;
-import android.content.DialogInterface;
 
 import java.io.File;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import cn.ucai.fulicenter.bean.BoutiqueBean;
 import cn.ucai.fulicenter.bean.CartBean;
@@ -15,19 +13,24 @@ import cn.ucai.fulicenter.bean.GoodsDetailsBean;
 import cn.ucai.fulicenter.bean.MessageBean;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
 import cn.ucai.fulicenter.bean.Result;
-import cn.ucai.fulicenter.bean.User;
-import cn.ucai.fulicenter.net.OkHttpUtils;
-import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.I;
 import cn.ucai.fulicenter.utils.L;
 import cn.ucai.fulicenter.utils.MD5;
 
-/**
+/**NetDao方法，用于网络请求，下载数据
  * Created by Administrator on 2016/10/17 0017.
  */
 public class NetDao {
+    public static final String TAG = NetDao.class.getSimpleName();
+    /**
+     *新品首页或精选二级页面一组商品信息
+     * @param context 上下文
+     * @param cartId 购物车id
+     * @param pageId 页码id
+     * @param listener 监听器
+     */
     public static void downLoadNewGoods(Context context, int cartId,int pageId, OkHttpUtils.OnCompleteListener<NewGoodsBean[]> listener ){
-        L.i("main","NetDao执行");
+        L.e(TAG,"NetDao执行");
         OkHttpUtils<NewGoodsBean[]> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_FIND_NEW_BOUTIQUE_GOODS)
                 .addParam(I.GoodsDetails.KEY_CAT_ID,String.valueOf(cartId))
@@ -37,29 +40,51 @@ public class NetDao {
                 .execute(listener);
     }
 
+    /**
+     * 响应客户端下载分类中二级页面一组商品信息的请求
+     * @param context 上下文
+     * @param goodsId 商品id
+     * @param listener 监听器
+     */
     public static void downloadGoodsDetail(Context context,int goodsId,OkHttpUtils.OnCompleteListener<GoodsDetailsBean> listener){
-        OkHttpUtils utils = new OkHttpUtils(context);
+        OkHttpUtils<GoodsDetailsBean> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_FIND_GOOD_DETAILS)
                 .addParam(I.GoodsDetails.KEY_GOODS_ID,String.valueOf(goodsId))
                 .targetClass(GoodsDetailsBean.class)
                 .execute(listener);
     }
 
+    /**
+     * 提供精选首页数据
+     * @param context 上下文
+     * @param listener 监听器
+     */
     public static void downloadBoutiqueBean(Context context ,OkHttpUtils.OnCompleteListener<BoutiqueBean[]> listener){
-        OkHttpUtils utils = new OkHttpUtils(context);
+        OkHttpUtils<BoutiqueBean[]> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_FIND_BOUTIQUES)
                 .targetClass(BoutiqueBean[].class)
                 .execute(listener);
     }
 
+    /**
+     *下载分类首页中小类商品的数据
+     * @param context 上下文
+     * @param parenId 父类id
+     * @param listener 监听器
+     */
     public static void downloadCategoryChild(Context context, int parenId, OkHttpUtils.OnCompleteListener<CategoryChildBean[]> listener){
-        OkHttpUtils utils = new OkHttpUtils(context);
+        OkHttpUtils<CategoryChildBean[]> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_FIND_CATEGORY_CHILDREN)
                 .addParam(I.CategoryChild.PARENT_ID,""+parenId)
                 .targetClass(CategoryChildBean[].class)
                 .execute(listener);
     }
 
+    /**
+     * 下载分类首页大类的数据
+     * @param context 上下文
+     * @param listener 监听器
+     */
     public static void downloadCategoryGroup(Context context, OkHttpUtils.OnCompleteListener<CategoryGroupBean[]> listener){
         OkHttpUtils<CategoryGroupBean[]> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_FIND_CATEGORY_GROUP)
@@ -67,6 +92,13 @@ public class NetDao {
                 .execute(listener);
     }
 
+    /**
+     * 响应客户端下载分类中二级页面一组商品信息的请求
+     * @param context 上下文
+     * @param cartId 购物车id
+     * @param pageId 页码id
+     * @param listener 监听器
+     */
     public static void downloadCategoryChildDetails(Context context,int cartId,int pageId, OkHttpUtils.OnCompleteListener<NewGoodsBean[]> listener){
         OkHttpUtils<NewGoodsBean[]> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_FIND_GOODS_DETAILS)
@@ -79,10 +111,10 @@ public class NetDao {
 
     /**
      * 登录
-     * @param context
-     * @param userName
-     * @param password
-     * @param listener
+     * @param context 上下文
+     * @param userName 用户名
+     * @param password 密码
+     * @param listener 监听器
      */
     public static void Login(Context context, String userName, String password, OkHttpUtils.OnCompleteListener<String> listener){
         OkHttpUtils<String> utils = new OkHttpUtils<>(context);
@@ -95,11 +127,11 @@ public class NetDao {
 
     /**
      * 注册
-     * @param context
-     * @param userName
-     * @param nick
-     * @param password
-     * @param listener
+     * @param context 上下文
+     * @param userName 用户名
+     * @param nick     昵称
+     * @param password 密码
+     * @param listener 监听器
      */
     public static void Register(Context context,String userName,String nick,String password,OkHttpUtils.OnCompleteListener<Result> listener){
         OkHttpUtils<Result> utils = new OkHttpUtils<>(context);
@@ -114,10 +146,10 @@ public class NetDao {
 
     /**
      * 更新用户昵称
-     * @param context
-     * @param userName
-     * @param nick
-     * @param listener
+     * @param context 上下文
+     * @param userName 用户名
+     * @param nick    昵称
+     * @param listener 监听器
      */
     public static void updateNick(Context context, String userName, String nick, OkHttpUtils.OnCompleteListener<String> listener){
         OkHttpUtils<String> utils = new OkHttpUtils<>(context);
@@ -130,12 +162,12 @@ public class NetDao {
 
     /**
      * 更新用户头像
-     * @param context
-     * @param userName
-     * @param file
-     * @param listener
+     * @param context 上下文
+     * @param userName 用户名
+     * @param file    要上传的头像文件
+     * @param listener 监听器
      */
-    public static void updateAvatar(Context context,String userName,File file,OkHttpUtils.OnCompleteListener listener){
+    public static void updateAvatar(Context context,String userName,File file,OkHttpUtils.OnCompleteListener<String> listener){
         OkHttpUtils<String> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_UPDATE_AVATAR)
                 .addParam(I.NAME_OR_HXID,userName)
@@ -148,9 +180,9 @@ public class NetDao {
 
     /**
      * 根据用户名查找用户信息，包括用户头像信息
-     * @param context
-     * @param userName
-     * @param listener
+     * @param context 上下文
+     * @param userName 用户名
+     * @param listener 监听器
      */
     public static void syncUserInfo(Context context,String userName,OkHttpUtils.OnCompleteListener<String> listener){
         OkHttpUtils<String> utils = new OkHttpUtils<>(context);
@@ -162,9 +194,9 @@ public class NetDao {
 
     /**
      * 下载收藏商品的数量
-     * @param context
-     * @param userName
-     * @param listener
+     * @param context 上下文
+     * @param userName 用户名
+     * @param listener 监听器
      */
     public static void getCollectsCount(Context context, String userName, OkHttpUtils.OnCompleteListener<MessageBean> listener){
         OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
@@ -176,10 +208,10 @@ public class NetDao {
 
     /**
      * 添加商品收藏
-     * @param context
-     * @param goodId
-     * @param userName
-     * @param listener
+     * @param context 上下文
+     * @param goodId  商品id
+     * @param userName 用户名
+     * @param listener 监听器
      */
     public static void addCollect(Context context, int goodId, String userName, OkHttpUtils.OnCompleteListener<MessageBean> listener){
         OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
@@ -192,10 +224,10 @@ public class NetDao {
 
     /**
      * 下载收藏的商品
-     * @param context
-     * @param userName
-     * @param pageId
-     * @param listener
+     * @param context 上下文
+     * @param userName 用户名
+     * @param pageId  页码id
+     * @param listener 监听器
      */
     public static void downloadCollects(Context context, String userName, int pageId,OkHttpUtils.OnCompleteListener<CollectBean[]> listener){
         OkHttpUtils<CollectBean[]> utils = new OkHttpUtils<>(context);
@@ -209,10 +241,10 @@ public class NetDao {
 
     /**
      * 删除收藏的商品
-     * @param context
-     * @param goodId
-     * @param userName
-     * @param listener
+     * @param context 上下文
+     * @param goodId  商品id
+     * @param userName 用户名
+     * @param listener 监听器
      */
     public static void deleteCollect(Context context, int goodId, String userName, OkHttpUtils.OnCompleteListener<MessageBean> listener){
         OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
@@ -223,6 +255,13 @@ public class NetDao {
                 .execute(listener);
     }
 
+    /**
+     * 是否收藏指定商品
+     * @param context 上下文
+     * @param goodId 商品id
+     * @param userName 用户名
+     * @param listener 监听器
+     */
     public static void isCollected(Context context,int goodId,String userName, OkHttpUtils.OnCompleteListener<MessageBean> listener){
         OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_IS_COLLECT)
@@ -261,12 +300,12 @@ public class NetDao {
     }
     /**
      * 响应客户端添加商品至购物车的请求
-     * @param context
-     * @param goodsId
-     * @param userName
-     * @param count
-     * @param isChecked
-     * @param listener
+     * @param context 上下文
+     * @param goodsId 商品id
+     * @param userName 用户名
+     * @param count   商品数量
+     * @param isChecked 是否选中
+     * @param listener 监听器
      */
     public static void addCart(Context context, int goodsId, String userName, int count, int isChecked, OkHttpUtils.OnCompleteListener<MessageBean> listener){
         OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
@@ -281,9 +320,9 @@ public class NetDao {
 
     /**
      * 删除购物车中的商品
-     * @param context
-     * @param id
-     * @param listener
+     * @param context 上下文
+     * @param id      购物车id
+     * @param listener 监听器
      */
     public static void deleteCart(Context context, int id, OkHttpUtils.OnCompleteListener<MessageBean> listener){
         OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
@@ -293,6 +332,13 @@ public class NetDao {
                 .execute(listener);
     }
 
+    /**
+     * 修改购物车中的商品的选中件数
+     * @param context 上下文
+     * @param cartId  购物车id
+     * @param count   数量
+     * @param listener 监听器
+     */
     public static void updateCart(Context context, int cartId, int count, OkHttpUtils.OnCompleteListener<MessageBean> listener){
         OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_UPDATE_CART)
