@@ -2,7 +2,6 @@ package cn.ucai.fulicenter.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -20,7 +19,6 @@ import cn.ucai.fulicenter.adapter.FuLiCenterApplication;
 import cn.ucai.fulicenter.bean.AlbumsBean;
 import cn.ucai.fulicenter.bean.GoodsDetailsBean;
 import cn.ucai.fulicenter.bean.MessageBean;
-import cn.ucai.fulicenter.bean.NewGoodsBean;
 import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.net.NetDao;
 import cn.ucai.fulicenter.net.OkHttpUtils;
@@ -54,9 +52,7 @@ public class GoodsDetailsActivity extends BaseActivity {
     RelativeLayout RLGoodDetailImage;
 
     int goodsId;
-//    NewGoodsBean goods;
     boolean isCollected = false;
-    int collectCount = 0;
     GoodsDetailsActivity mContext;
     @BindView(R.id.slideAutoLoopView)
     SlideAutoLoopView mSalv;
@@ -64,16 +60,14 @@ public class GoodsDetailsActivity extends BaseActivity {
     FlowIndicator mIndicator;
     @BindView(R.id.webViewGoodBrief)
     WebView mWebViewGoodBrief;
-    @BindView(R.id.tvCollectCount)
-    TextView tvCollectCount;
 
+    private final String TAG = GoodsDetailsActivity.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_goods_details);
         ButterKnife.bind(this);
         goodsId = getIntent().getIntExtra(I.GoodsDetails.KEY_GOODS_ID, 0);
-//        goods = (NewGoodsBean) getIntent().getSerializableExtra(I.GoodsDetails.KEY_GOODS_ID);
-        L.e("details", "goodsId=" + goodsId);
+        L.e(TAG,"goodsId=" + goodsId);
 
         if (goodsId == 0) {
             finish();
@@ -107,7 +101,7 @@ public class GoodsDetailsActivity extends BaseActivity {
         NetDao.downloadGoodsDetail(mContext, goodsId, new OkHttpUtils.OnCompleteListener<GoodsDetailsBean>() {
             @Override
             public void onSuccess(GoodsDetailsBean result) {
-                L.i("details=" + result);
+                L.e(TAG,"details=" + result);
                 if (result != null) {
                     showGoodDetails(result);
                     ivTitleShare.setTag(result);
@@ -119,7 +113,7 @@ public class GoodsDetailsActivity extends BaseActivity {
             @Override
             public void onError(String error) {
                 finish();
-                L.e("main,error=" + error);
+                L.e(TAG,"error=" + error);
                 CommonUtils.showShortToast(error);
             }
         });
@@ -298,18 +292,23 @@ public class GoodsDetailsActivity extends BaseActivity {
     @OnClick(R.id.iv_title_cart)
     public void onAddCart(){
             User user = FuLiCenterApplication.getUser();
-            NetDao.addCart(mContext,goodsId,user.getMuserName(),1,0, new OkHttpUtils.OnCompleteListener<MessageBean>() {
-                @Override
-                public void onSuccess(MessageBean result) {
-                    if(result!=null&&result.isSuccess()){
-                        CommonUtils.showShortToast("添加到购物车成功");
-                        mContext.sendBroadcast(new Intent(I.BROADCAST_UPDATE_CART).putExtra(I.ACTION_UPDATE_CART,true));
+            if(user!=null){
+                NetDao.addCart(mContext,goodsId,user.getMuserName(),1,0, new OkHttpUtils.OnCompleteListener<MessageBean>() {
+                    @Override
+                    public void onSuccess(MessageBean result) {
+                        if(result!=null&&result.isSuccess()){
+                            CommonUtils.showShortToast(R.string.add_good_success);
+                            mContext.sendBroadcast(new Intent(I.BROADCAST_UPDATE_CART).putExtra(I.ACTION_UPDATE_CART,true));
+                        }
                     }
-                }
-                @Override
-                public void onError(String error) {
-
-                }
-            });
+                    @Override
+                    public void onError(String error) {
+                        CommonUtils.showShortToast(R.string.add_good_fail);
+                        L.e(TAG,"error="+error);
+                    }
+                });
+            }else{
+                MFGT.gotoLoginActivity(mContext);
+            }
         }
 }
