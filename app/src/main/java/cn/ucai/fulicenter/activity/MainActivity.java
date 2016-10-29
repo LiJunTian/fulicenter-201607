@@ -25,7 +25,8 @@ import cn.ucai.fulicenter.fragments.Fragment_NewGoods;
 import cn.ucai.fulicenter.fragments.Fragment_PersonCenter;
 
 public class MainActivity extends AppCompatActivity {
-    int index;
+    final String TAG = MainActivity.class.getSimpleName();
+    int index = 0;
     int currentIndex = 0;
     Fragment[] mFragments;
     Fragment_NewGoods mFragment_newGoods;
@@ -68,16 +69,11 @@ public class MainActivity extends AppCompatActivity {
         initView();
         initFragment();
         addFragment();
-        /*setUserName(getIntent().getStringExtra(I.User.USER_NAME));
-        if(userName!=null){
-            index = 4;
-            setRadioButtonStatus();
-            switchFragment(index);
-        }*/
+
     }
 
     private void initFragment() {
-        L.i("main","初始化fragment");
+        L.i(TAG,"初始化fragment");
         mFragment_newGoods = new Fragment_NewGoods();
         mFragment_Boutique = new Fragment_Boutique();
         mFragment_Category = new Fragment_Category();
@@ -105,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         rbs[4] = mainRbPersonalCenter;
     }
     public void onCheckedChange(View view){
-        L.i("onCheckedChange...");
+        L.e(TAG,"onCheckedChange");
         switch(view.getId()){
             case R.id.main_rbNewGoods:
                 index = 0;
@@ -118,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.main_rbCart:
                 if(FuLiCenterApplication.getUser()==null){
-                    mainRbCart.setChecked(false);
                     startActivityForResult(new Intent(this,LoginActivity.class),I.REQUEST_CODE_CART);
                 }else{
                     index = 3;
@@ -126,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.main_rbPersonalCenter:
                 if(FuLiCenterApplication.getUser()==null){
-                    mainRbPersonalCenter.setChecked(false);
                     startActivityForResult(new Intent(this,LoginActivity.class),I.REQUEST_CODE_LOGIN);
                 }else{
                     index = 4;
@@ -137,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void switchFragment(int index) {
+        setRadioButtonStatus(index);
         if(currentIndex==index){
             return;
         }
@@ -146,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
             ft.add(R.id.main_FragmentLayout,fragment);
         }
         ft.show(fragment).hide(mFragments[currentIndex]).commit();
-        setRadioButtonStatus(index);
         currentIndex = index;
     }
 
@@ -163,10 +157,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        L.e("MainActivity","index="+index);
+        L.e(TAG,"index="+index);
         if(index==4&&FuLiCenterApplication.getUser()==null){
-            switchFragment(0);
+            //switchFragment(0);
+            index=0;
         }
+        switchFragment(index);
     }
 
     @Override
@@ -176,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
             User user = (User) data.getSerializableExtra(I.User.USER_NAME);
             if(user!=null){
                 index = 4;
-                switchFragment(4);
+//              switchFragment(4);
             }
         }
 
@@ -184,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
             User user = (User) data.getSerializableExtra(I.User.USER_NAME);
             if(user!=null){
                 index = 3;
-                switchFragment(3);
+//                switchFragment(3);
             }
         }
     }
